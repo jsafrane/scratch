@@ -124,7 +124,7 @@ Checks if the required volume exists and deletes it if so. Returns success if th
 ### ControllerPublishVolume
 1. Checks that given volume is already attached to given node. Returns success if so.
 2. Checks that given volume is available (i.e. not attached to any other node) and returns error if it is attached.
-3. Chooses the right device name for the volume on the node (more on that below) and issues `AWS.AttachVolume`.\
+3. Chooses the right device name for the volume on the node (more on that below) and issues `AWS.AttachVolume`.
 TODO: this has complicated idempotency expectations. It cancels previously called `ControllerUnpublishVolume` that may be still in progress (i.e. AWS is still detaching the volume and Kubernetes now wants the volume to be attached back).
 
 ### ControllerUnpublishVolume
@@ -183,5 +183,5 @@ response:
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMDYwMDE3ODUsMjAyNTQzNDg0NV19
+eyJoaXN0b3J5IjpbNTU0OTE3MTkxLDIwMjU0MzQ4NDVdfQ==
 -->

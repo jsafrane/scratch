@@ -12,7 +12,7 @@ It would be great if either AWS itself assigned the device names, or there would
 ### DescribeVolumes quota
 In order to attach/detach volume to/from a node, current AWS cloud provider issues `AWS.AttachVolume`/`DetachVolume` call and then it polls `DescribeVolume` until the volume is attached or detached. The frequency of `DescribeVolume` is quite high to minimize delay between AWS finishing attachment of the volume and Kubernetes discovering that. Sometimes we even hit API quota for these calls. 
 
-It would be better if CSI driver could get reliable and fast event when a volume has become attached / detached.
+It would be better if CSI driver could get reliable and fast event from AWS when a volume has become attached / detached.
 
 Or the driver could batch the calls and issue one big `DescribeVolume` call with every volume that's being attached/detached in it.
 
@@ -35,7 +35,7 @@ Very rarely a node gets too busy and kubelet starves for CPU. It does not unmoun
 
 ## Requirements
 ### Idempotency
-All CSI calls should be idempotent. A CSI method call with the same parameters must always return the same result. It's task of CSI driver to ensure that, especially when AWS itself is not idempotent.
+All CSI driver calls should be idempotent. A CSI method call with the same parameters must always return the same result. It's task of CSI driver to ensure that, especially when AWS itself is not idempotent.
 
 Examples:
 
@@ -60,7 +60,7 @@ Example:
 
 Note that there are some issues:
 
-* Kubernetes can change its mind at any time. E.g. an user that wanted to run a pod on the node with the volume attached got impatient so he deleted the pod. In this case Kubernetes will call `ControllerUnpublishVolume(vol1, nodeA)` to "cancel" the attachment request. It's up to the driver to do the right thing - e.g. wait until the volume is attached and then issue `detach()` and wait until the volume is detached.
+* Kubernetes can change its mind at any time. E.g. user that wanted to run a pod on the node with the volume attached got impatient so he deleted the pod. In this case Kubernetes will call `ControllerUnpublishVolume(vol1, nodeA)` to "cancel" the attachment request. It's up to the driver to do the right thing - e.g. wait until the volume is attached and then issue `detach()` and wait until the volume is detached.
 
   Note that Kubernetes may time out waiting for `ControllerUnpublishVolume` too. In this case, it will keep calling it until it gets confirmation from the driver that the volume has been detached (i.e. until the driver returns either success or non-timeout error) or it needs the volume attached to the node again (and it will call `ControllerPublishVolume` in that case).
 
@@ -177,5 +177,5 @@ response:
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1NzM4NzcxMzgsMjAyNTQzNDg0NV19
+eyJoaXN0b3J5IjpbLTY3MzU4Mjg3NiwyMDI1NDM0ODQ1XX0=
 -->

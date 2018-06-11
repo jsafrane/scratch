@@ -127,9 +127,10 @@ Chooses the right device name for the volume on the node (more on that below) an
 TODO: this has complicated idempotency expectations. It cancels previously called `ControllerUnpublishVolume` that may be still in progress (i.e. AWS is still detaching the volume and Kubernetes now wants the volume to be attached back).
 
 ### ControllerUnpublishVolume
-Checks that given volume is not attached to given node. Returns success if so.
-Checks that given volume is **not** used (mounted) on the node. Returns error if so,.
-Issues `AWS.AttachVolume` and marks the detached device name as free  (more on that below).
+1. Checks that given volume is not attached to given node. Returns success if so.
+2. Checks that given volume is **not** used (mounted) on the node. Returns error if so. TODO: is there a reliable check for this?
+3. Issues `AWS.AttachVolume` and marks the detached device name as free  (more on that below).
+
 TODO: this has complicated idempotency expectations. It cancels previously called `ControllerPublishVolume` (i.e.AWS is still detaching the volume and Kubernetes now wants the volume to be detached).
 
 ### ValidateVolumeCapabilities
@@ -181,5 +182,5 @@ response:
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzMyNTk3MTc1LDIwMjU0MzQ4NDVdfQ==
+eyJoaXN0b3J5IjpbMTQ5Mzg5OTkyMiwyMDI1NDM0ODQ1XX0=
 -->

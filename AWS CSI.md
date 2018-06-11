@@ -60,7 +60,7 @@ Example:
 
 Note that there are some issues:
 
-* Kubernetes can change its mind at any time. E.g. user that wanted to run a pod on the node with the volume attached got impatient so he deleted the pod. In this case Kubernetes will call `ControllerUnpublishVolume(vol1, nodeA)` to "cancel" the attachment request. It's up to the driver to do the right thing - e.g. wait until the volume is attached and then issue `detach()` and wait until the volume is detached.
+* Kubernetes can change its mind at any time. E.g. user that wanted to run a pod on the node in the example got impatient so he deleted the pod. In this case Kubernetes calls `ControllerUnpublishVolume(vol1, nodeA)` to "cancel" the attachment request. It's up to the driver to do the right thing - e.g. wait until the volume is attached and then issue `detach()` and wait until the volume is detached and only after that return from `ControllerUnpublishVolume(vol1, nodeA)`.
 
   Note that Kubernetes may time out waiting for `ControllerUnpublishVolume` too. In this case, it will keep calling it until it gets confirmation from the driver that the volume has been detached (i.e. until the driver returns either success or non-timeout error) or it needs the volume attached to the node again (and it will call `ControllerPublishVolume` in that case).
 
@@ -73,7 +73,7 @@ The CSI driver should survive its own crashes or crashes or reboots of the node 
 
 The perfect CSI driver should be stateless. After start, it should recover its state by observing the actual status of AWS (i.e. describe instances / volumes). Current cloud provider follows this approach, however there are some corner cases around restarts when Kubernetes can try to attach two volumes to the same device on a node.
 
-When the stateless driver is not possible, it can use some persistent storage outside of the driver. Since the driver should support multiple Container Orchestrators (like Mesos), it must not use Kubernetes APIs. It should use AWS APIs instead to persist its state if needed (like AWS DynamoDB). 
+When the stateless driver is not possible, it can use some persistent storage outside of the driver. Since the driver should support multiple Container Orchestrators (like Mesos), it must not use Kubernetes APIs. It should use AWS APIs instead to persist its state if needed (like AWS DynamoDB). We assume that costs of using such db will be negligible compared to rest of Kubernetes.
 
 ### No credentials on nodes
 General security requirements we follow in Kubernetes is "if a node gets compromised then the damage is limited to the node". Paranoid people typically dedicate handful of nodes in Kubernetes cluster as "infrastructure nodes" and dedicate these nodes to run "infrastructure pods" only. Regular users can't run their pods there. CSI attacher and provisioner is an example of such "infrastructure pod" - it need permission to create/delete any PV in Kubernetes and CSI driver running there needs credentials to create/delete volumes in AWS.
@@ -177,5 +177,5 @@ response:
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTY3MzU4Mjg3NiwyMDI1NDM0ODQ1XX0=
+eyJoaXN0b3J5IjpbMTM0NzY2NDYzLDIwMjU0MzQ4NDVdfQ==
 -->

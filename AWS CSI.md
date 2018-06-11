@@ -35,7 +35,8 @@ Very rarely a node gets too busy and kubelet starves for CPU. It does not unmoun
 
 ## Requirements
 ### Idempotency
-All CSI calls should be idempotent. A CSI method call with the same parameters must always return the same result. It's task of CSI driver to ensure that, especially when AWS itse
+All CSI calls should be idempotent. A CSI method call with the same parameters must always return the same result. It's task of CSI driver to ensure that, especially when AWS itself is not idempotent.
+
 Examples:
 
 * `CreateVolume` call must first check that the requested EBS volume has been already provisioned and return it if so. It should create a new volume only when such volume  does not exist.
@@ -176,5 +177,5 @@ response:
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQ1MjE2MTkyMCwyMDI1NDM0ODQ1XX0=
+eyJoaXN0b3J5IjpbLTE1NzM4NzcxMzgsMjAyNTQzNDg0NV19
 -->

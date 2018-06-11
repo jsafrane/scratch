@@ -119,7 +119,7 @@ Checks that the requested volume was not created yet and creates it.
 		3. Both `AWS.CreateVolume()` calls succeed -> the driver has provisioned 2 volumes for one  `driver.CreateVolume` call.
 
 ### DeleteVolume
-Checks if the required volume exists and deletes it if so. Returns success if the volume can't be found.
+Checks if the required volume exists and deletes it if so. Returns success if the volume can't be found. Returns error if the volume is attached anywhere.
 
 ### ControllerPublishVolume
 Checks that given volume is already attached to given node. Returns success if so.
@@ -128,6 +128,7 @@ TODO: this has complicated idempotency expectations. It cancels previously calle
 
 ### ControllerUnpublishVolume
 Checks that given volume is not attached to given node. Returns success if so.
+Checks that given volume is **not** used (mounted) on the node. Returns error if so,.
 Issues `AWS.AttachVolume` and marks the detached device name as free  (more on that below).
 TODO: this has complicated idempotency expectations. It cancels previously called `ControllerPublishVolume` (i.e.AWS is still detaching the volume and Kubernetes now wants the volume to be detached).
 
@@ -180,5 +181,5 @@ response:
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI0NjQwNTAzLDIwMjU0MzQ4NDVdfQ==
+eyJoaXN0b3J5IjpbNzMyNTk3MTc1LDIwMjU0MzQ4NDVdfQ==
 -->

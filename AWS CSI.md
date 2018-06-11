@@ -80,6 +80,10 @@ General security requirements we follow in Kubernetes is "if a node gets comprom
 
 There should be a way how to run the CSI driver (=container) in "node mode" only. Such driver would then respond only to node service RPCs and it would not have any credentials to AWS (or very limited credentials, e.g. only to Describe things). Paranoid people would deploy CSI driver in "node only" mode on all nodes where Kubernetes runs user containers.
 
+# High level overview of CSI calls
+
+TODO: update with CSI 0.3.0.
+
 ## Identity Service RPC
 
 ### GetPluginInfo
@@ -100,8 +104,7 @@ response:
 ```
 ### Probe
 * Check that the  driver is configured and it can do simple AWS operations, e.g. describe volumes or so.
-* This call is used by Kubernetes liveness probe to check that  the driver is healthy. It's called every ~10 seconds (configurable, we can recommend higher values).
-
+* This call is used by Kubernetes liveness probe to check that  the driver is healthy. It's called every ~10 seconds, so it should not do anything “expensive” or time consuming. 10 seconds are configurable, we can recommend higher values.
 
 ## Controller Service RPC
 ### CreateVolume
@@ -177,5 +180,5 @@ response:
 ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM0NzY2NDYzLDIwMjU0MzQ4NDVdfQ==
+eyJoaXN0b3J5IjpbLTI0NjQwNTAzLDIwMjU0MzQ4NDVdfQ==
 -->

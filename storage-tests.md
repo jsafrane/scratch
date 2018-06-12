@@ -107,10 +107,11 @@ Similarly, only one iSCSI container based on   `test/images/volumes-tester/iscsi
 Based on decision above.
 
 ### Rework iSCSI server image
+iSCSI can serve multiple LUNs on one node if following condit
 * The iSCSI "server container" does not run any daemon. It onlu configures iSCSI target in kernel.
 * It must run with HostNetwork=true to be able to serve LUNs from different containers.
-* `targetcli` running in containers should see all fake "block devices" (i.e. plain files with ext2 FS in them) that are exported as LUNs, even if such LUN 
-* The files backing the LUNs (i.e. fake block devices) must be on the host's filesystem and not in the containers. 
+* `targetcli` running in containers should see all fake "block devices" (i.e. plain files with ext2 FS in them) that are exported as LUNs, even if such LUN was exported by a different container on the same node. Therefore the container should copy the file to the host, e.g. `/srv/iscsi` directory.
+
 ### Deploy iSCSI and Ceph servers on test startup
 If we choose to run iSCSI or Ceph servers in `SynchronizedBeforeSuite`:
 
@@ -160,5 +161,5 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzM5MTY1MDg3LDEwOTI5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbLTE3NDI2NzY4MDgsMTA5Mjk3ODgwNl19
 -->

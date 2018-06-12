@@ -107,8 +107,9 @@ Similarly, only one iSCSI container based on   `test/images/volumes-tester/iscsi
 Based on decision above.
 
 ### Rework iSCSI server image
-Based on decision above.
-
+* The iSCSI "server container" does not run any daemon. It onlu configures iSCSI target in kernel.
+* It must run with HostNetwork=true to be able to serve LUNs from different containers.
+* 
 ### Deploy iSCSI and Ceph servers on test startup
 If we choose to run iSCSI or Ceph servers in `SynchronizedBeforeSuite`:
 
@@ -158,5 +159,5 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbOTA2MjYxOTQ1LDEwOTI5Nzg4MDZdfQ==
 -->

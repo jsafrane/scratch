@@ -109,7 +109,7 @@ Based on decision above.
 ### Rework iSCSI server image
 * The iSCSI "server container" does not run any daemon. It onlu configures iSCSI target in kernel.
 * It must run with HostNetwork=true to be able to serve LUNs from different containers.
-* 
+* The files backing the LUNs (i.e. fake block devices) must be on the host's filesystem and not in the containers. `targetcli` running in containers should be 
 ### Deploy iSCSI and Ceph servers on test startup
 If we choose to run iSCSI or Ceph servers in `SynchronizedBeforeSuite`:
 
@@ -159,5 +159,5 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTA2MjYxOTQ1LDEwOTI5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbLTEwMDM4MTk2MzUsMTA5Mjk3ODgwNl19
 -->

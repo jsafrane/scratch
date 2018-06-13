@@ -79,8 +79,11 @@ The only difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersis
 We assume that vast majority of in-line volumes won't need any secrets, as that was the same case in Flex volume.
 
 ## Implementation
-All volume plugin calls get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume` (f
+### In-tree
+In-tree CSI volume plugin calls get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read secrets from appropriate source.
+
+### O
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjgwMDcwMTY3LDY1NTc3MTgxMywtNTE2Nz
-A2NjUwXX0=
+eyJoaXN0b3J5IjpbLTc4NDc3NDMwNiw2NTU3NzE4MTMsLTUxNj
+cwNjY1MF19
 -->

@@ -78,7 +78,7 @@ The only difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersis
 
 ## Implementation
 #### Provisioning/Deletion
-N/A, it works only with PVs and not in-line volumes.
+N/A, it works only with PVs and not with in-line volumes.
 
 ### Attach/Detach
 Current `storage.VolumeAttachment` object contains only reference to PV that's being attached. It must be extended with VolumeSource for in-line volumes in pods.
@@ -109,13 +109,13 @@ type VolumeAttachmentSource struct {
 
 * A/D controller **copies whole `VolumeSource`**  from `Pod` into `VolumeAttachment`. This allows external CSI attacher to detach volumes for deleted pods without keeping any internal database of attached VolumeSources.
 * Using whole `VolumeSource` allows us to re-use `VolumeAttachment` for any other in-line volume in the future. We provide validation that this `VolumeSource` contains only `CSIVolumeSource` to clearly state that only CSI is supported now.
-	* TBD: `CSIVolumeSource` would be enough.
+	* TBD: `CSIVolumeSource` would be enough...
 * External CSI attacher must be extended to  process either `PersistentVolumeName` or `VolumeSource`. Since in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher must get permissions to read any Secrets in any namespace**.
 
-### MountDevice/SetUp/TearDown/UnmountDevice
+### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. **CSI plugin must cache these secrets in case a pod is deleted and kubelet looses access to these secrets, but still needs to unmount volumes.** CSI plugin will reuse already existing json files in `/var/lib/kubelet/` on the host to store these secrets.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI1OTE5ODA0Miw4MzM3MzU4MDIsNjU1Nz
+eyJoaXN0b3J5IjpbMTc1NTMxNDY1MSw4MzM3MzU4MDIsNjU1Nz
 cxODEzLC01MTY3MDY2NTBdfQ==
 -->

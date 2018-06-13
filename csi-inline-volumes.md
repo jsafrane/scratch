@@ -113,9 +113,9 @@ type VolumeAttachmentSource struct {
 * External CSI attacher must be extended to  process either `PersistentVolumeName` or `VolumeSource`. Since in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher must get permissions to read any secret in any namespace**.
 
 ### MountDevice/SetUp/TearDown/UnmountDevice
-In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet already has permissions to read secrets for volumes in 
+In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet already has permissions to read secrets for pods that it handles. **CSI plugin must cache these secrets in case a pod is deleted and kubelet looses access to these secrets.** CSI plugin already stores similar metadata 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0MzgyMDc5MjQsODMzNzM1ODAyLDY1NT
-c3MTgxMywtNTE2NzA2NjUwXX0=
+eyJoaXN0b3J5IjpbMzcxODU3NTQ1LDgzMzczNTgwMiw2NTU3Nz
+E4MTMsLTUxNjcwNjY1MF19
 -->

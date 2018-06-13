@@ -11,8 +11,11 @@ Currently, CSI can be used only though PersistentVolume object. All other persis
 * CSI drivers can be used to provide Secrets-like volumes to pods, e.g. reading secrets from a remote vault. We don't want to force users to create PVs for each secret, we should allow to use them in-line in pods as regular Secrets or Secrets-like flex volumes.
 
 ## API
+`VolumeSource` needs to be extended with CSI volume source:
+```go
 
+```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTY0MDEyNDc2MCw2NTU3NzE4MTMsLTUxNj
-cwNjY1MF19
+eyJoaXN0b3J5IjpbLTE5ODMwMzAwOTMsNjU1NzcxODEzLC01MT
+Y3MDY2NTBdfQ==
 -->

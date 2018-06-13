@@ -7,8 +7,8 @@ Author: @jsafrane
 
 ## Motivation
 Currently, CSI can be used only though PersistentVolume object. All other persistent volume sources support in-line volumes in Pods, CSI should be no exception. There are two main drivers:
-* We want to move away from in-tree volume plugins to CSI, as designed in a separate proposal https://github.com/kubernetes/community/pull/2199/. In-line volumes 
-* CSI drivers can be used to provide Secrets-like volumes to pods, e.g. reading secrets from a remote vault. We don't want to force users to create PVs for each secret, we should allow to use them in-line in pods as regular Secrets or Secrets-like flex volumes.
+* We want to move away from in-tree volume plugins to CSI, as designed in a separate proposal https://github.com/kubernetes/community/pull/2199/. In-line volumes should use CSI too.
+* CSI drivers can be used to provide Secrets-like volumes to pods, e.g. providing secrets from a remote vault. We don't want to force users to create PVs for each secret, we should allow to use them in-line in pods as regular Secrets or Secrets-like Flex volumes.
 
 ## API
 `VolumeSource` needs to be extended with CSI volume source:
@@ -118,6 +118,6 @@ type VolumeAttachmentSource struct {
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. **CSI plugin must cache these secrets in case a pod is deleted and kubelet looses access to these secrets, but still needs to unmount volumes.** CSI plugin will reuse already existing json files in `/var/lib/kubelet/` on the host to store these secrets.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQzNTk2NTYyMyw4MzM3MzU4MDIsNjU1Nz
+eyJoaXN0b3J5IjpbMTI2OTI4OTQyOCw4MzM3MzU4MDIsNjU1Nz
 cxODEzLC01MTY3MDY2NTBdfQ==
 -->

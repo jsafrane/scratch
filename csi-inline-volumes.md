@@ -14,7 +14,8 @@ Currently, CSI can be used only though PersistentVolume object. All other persis
 `VolumeSource` needs to be extended with CSI volume source:
 ```go
 type VolumeSource struct {
-
+    // <snip>
+    
 	// CSI (Container Storage Interface) represents storage that handled by an external CSI driver (Beta feature).
 	// +optional
 	CSI *CSIVolumeSource
@@ -73,10 +74,10 @@ type CSIVolumeSource struct {
 }
 ```
 
-The only difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` are secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
+The only difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
 
-We assume that vast majority of in-line volumes won't need
+We assume that vast majority of in-line volumes won't need any secrets, as that was the same case in Flex volume.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwMzg3OTcwMiw2NTU3NzE4MTMsLTUxNj
-cwNjY1MF19
+eyJoaXN0b3J5IjpbMTk5OTMwMDk4LDY1NTc3MTgxMywtNTE2Nz
+A2NjUwXX0=
 -->

@@ -94,9 +94,8 @@ type VolumeAttachmentSpec struct {
 	Source VolumeAttachmentSource
 }
 
-// VolumeAttachmentSource represents a volume that should be attached.
-// Right now only PersistenVolumes can be attached via external attacher,
-// in future we may allow also inline volumes in pods.
+// VolumeAttachmentSource represents a volume that should be attached, either
+// PersistentVolume or a volume in-lined in a Pod.
 // Exactly one member can be set.
 type VolumeAttachmentSource struct {
 	// Name of the persistent volume to attach.
@@ -117,6 +116,6 @@ type VolumeAttachmentSource struct {
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2Nz
-A2NjUwXX0=
+eyJoaXN0b3J5IjpbMTA0NzA5NDMzMyw4MzM3MzU4MDIsNjU1Nz
+cxODEzLC01MTY3MDY2NTBdfQ==
 -->

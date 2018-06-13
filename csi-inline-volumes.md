@@ -85,6 +85,28 @@ N/A, it works only with PVs and not in-line volumes.
 ### Attach/Detach
 Current `storage.VolumeAttachment` object contains only reference to PV that's being attached. It must be extended with VolumeSource for in-line volumes in pods.
 
+```go
+// VolumeAttachmentSpec is the specification of a VolumeAttachment request.
+type VolumeAttachmentSpec struct {
+    // <snip>
+    
+	// Source represents the volume that should be attached.
+	Source VolumeAttachmentSource `json:"source" protobuf:"bytes,2,opt,name=source"`
+}
+
+// VolumeAttachmentSource represents a volume that should be attached.
+// Right now only PersistenVolumes can be attached via external attacher,
+// in future we may allow also inline volumes in pods.
+// Exactly one member can be set.
+type VolumeAttachmentSource struct {
+	// Name of the persistent volume to attach.
+	// +optional
+	PersistentVolumeName *string `json:"persistentVolumeName,omitempty" protobuf:"bytes,1,opt,name=persistentVolumeName"`
+    VolumeSource 
+}
+
+```
+
 * Whole `VolumeSource` is **copied** from `Pod` into `VolumeAttachment` by A/D controller
 * We provide validation that this `VolumeSource` contains only `CSIVolumeSource`.
 * This allows us to re-use `VolumeAttachment` for any other VolumeSource in the future.
@@ -98,6 +120,6 @@ Nothing needed, it works only with PVs
 #### External attacher
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1MDg1OTU0MTAsNjU1NzcxODEzLC01MT
+eyJoaXN0b3J5IjpbLTE5NDM1Mzc1MzMsNjU1NzcxODEzLC01MT
 Y3MDY2NTBdfQ==
 -->

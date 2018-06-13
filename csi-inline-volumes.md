@@ -99,28 +99,24 @@ type VolumeAttachmentSpec struct {
 // in future we may allow also inline volumes in pods.
 // Exactly one member can be set.
 type VolumeAttachmentSource struct {
-	// Name of the persistent volume to attach. Exactly one of PersistentVolumeName or VolumeSource must be specified.
+	// Name of the persistent volume to attach.
 	// +optional
 	PersistentVolumeName *string 
 
-	// 
+	// VolumeSource represents the source location of a volume to attach.
+	// Only one of its members may be specified.
     VolumeSource *v1.VolumeSource 
 }
 ```
 
 * Whole `VolumeSource` is **copied** from `Pod` into `VolumeAttachment` by A/D controller. This allows external CSI attacher to detach volumes for deleted pods without keeping any internal database of attached VolumeSources.
 * Using whole `VolumeSource` allows us to re-use `VolumeAttachment` for any other in-line volume in the future. We provide validation that this `VolumeSource` contains only `CSIVolumeSource` to clearly state that only CSI is supported now.
-* External CSI attacher must be extended to  process either `PersistentVolumeName` or `VolumeSource`. Since the in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher must get permissions to read any secret in any namespace**.
+* External CSI attacher must be extended to  process either `PersistentVolumeName` or `VolumeSource`. Since in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher must get permissions to read any secret in any namespace**.
 
 ### MountDevice/SetUp/TearDown/UnmountDevice
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source.
 
-### Out of tree
-#### External provisioner
-Nothing needed, it works only with PVs
-#### External attacher
-
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU3MDM2MDkxOSw2NTU3NzE4MTMsLTUxNj
-cwNjY1MF19
+eyJoaXN0b3J5IjpbODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2Nz
+A2NjUwXX0=
 -->

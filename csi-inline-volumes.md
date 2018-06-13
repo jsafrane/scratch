@@ -77,7 +77,10 @@ type CSIVolumeSource struct {
 The only difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
 
 We assume that vast majority of in-line volumes won't need any secrets, as that was the same case in Flex volume.
+
+## Implementation
+All volume plugin calls get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume` (f
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTk5OTMwMDk4LDY1NTc3MTgxMywtNTE2Nz
+eyJoaXN0b3J5IjpbMjgwMDcwMTY3LDY1NTc3MTgxMywtNTE2Nz
 A2NjUwXX0=
 -->

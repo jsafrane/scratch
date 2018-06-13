@@ -73,8 +73,8 @@ type CSIVolumeSource struct {
 }
 ```
 
-The only difference between `CSIVolumeSource` (used in 
+The only difference between `CSIVolumeSource` (in-lined in pods) and `CSIPersistentVolumeSource` are secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the pod is running.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjQyODgxNzUsNjU1NzcxODEzLC01MTY3MD
-Y2NTBdfQ==
+eyJoaXN0b3J5IjpbLTkwNTg4NTkxMCw2NTU3NzE4MTMsLTUxNj
+cwNjY1MF19
 -->

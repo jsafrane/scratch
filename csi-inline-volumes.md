@@ -74,9 +74,7 @@ type CSIVolumeSource struct {
 }
 ```
 
-The only difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
-
-We assume that vast majority of in-line volumes won't need any secrets, as that was the same case in Flex volume.
+The only difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
 
 ## Implementation
 #### Provisioning/Deletion
@@ -118,6 +116,6 @@ type VolumeAttachmentSource struct {
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. **CSI plugin must cache these secrets in case a pod is deleted and kubelet looses access to these secrets, but still needs to unmount volumes.** CSI plugin will reuse already existing json files in `/var/lib/kubelet/` on the host to store these secrets.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTI2OTI4OTQyOCw4MzM3MzU4MDIsNjU1Nz
+eyJoaXN0b3J5IjpbLTI1OTE5ODA0Miw4MzM3MzU4MDIsNjU1Nz
 cxODEzLC01MTY3MDY2NTBdfQ==
 -->

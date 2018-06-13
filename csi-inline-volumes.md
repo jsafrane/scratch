@@ -6,8 +6,8 @@ Author: @jsafrane
 * Define API and high level design for in-line CSI volumes in Pod
 
 ## Motivation
-All other persistent volume sources support in-line volumes in Pods, CSI should be no exception. It will be useful when 
+Currently, CSI can be used only though PersistentVolume object. All other persistent volume sources support in-line volumes in Pods, CSI should be no exception. It will be useful when we move away from in-tree drive 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU3NDk0NzAwMyw2NTU3NzE4MTMsLTUxNj
-cwNjY1MF19
+eyJoaXN0b3J5IjpbLTIwODI2MzkzMzIsNjU1NzcxODEzLC01MT
+Y3MDY2NTBdfQ==
 -->

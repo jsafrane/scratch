@@ -80,8 +80,12 @@ We assume that vast majority of in-line volumes won't need any secrets, as that 
 
 ## Implementation
 #### Provisioning/Deletion
+N/A, it works only with PVs and not in-line volumes.
 
-In-tree CSI volume plugin calls get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read secrets from appropriate source.
+### Attach/Detach
+
+### MountDevice/SetUp/TearDown/UnmountDevice
+In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read secrets from appropriate source.
 
 ### Out of tree
 #### External provisioner
@@ -89,6 +93,6 @@ Nothing needed, it works only with PVs
 #### External attacher
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTM4ODQyNDkzLDY1NTc3MTgxMywtNTE2Nz
-A2NjUwXX0=
+eyJoaXN0b3J5IjpbLTIwNDcwMzgyOTEsNjU1NzcxODEzLC01MT
+Y3MDY2NTBdfQ==
 -->

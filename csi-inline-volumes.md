@@ -109,8 +109,8 @@ type VolumeAttachmentSource struct {
 ```
 
 * Whole `VolumeSource` is **copied** from `Pod` into `VolumeAttachment` by A/D controller. This allows external CSI attacher to detach volumes for deleted pods without keeping any internal database of attached VolumeSources.
-* We provide validation that this `VolumeSource` contains only `CSIVolumeSource`. Using whole `VolumeSource` allows us to re-use `VolumeAttachment` for any other in-line volume in the future.
-* External CSI attacher processes either `PersistentVolumeName` or 
+* Using whole `VolumeSource` allows us to re-use `VolumeAttachment` for any other in-line volume in the future. We provide validation that this `VolumeSource` contains only `CSIVolumeSource` to clearly state that only CSI is supported now.
+* External CSI attacher processes either `PersistentVolumeName` or `Volu
 
 ### MountDevice/SetUp/TearDown/UnmountDevice
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source.
@@ -121,6 +121,6 @@ Nothing needed, it works only with PVs
 #### External attacher
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTYxMzE2NTU3Niw2NTU3NzE4MTMsLTUxNj
-cwNjY1MF19
+eyJoaXN0b3J5IjpbLTE3ODE1OTk0ODQsNjU1NzcxODEzLC01MT
+Y3MDY2NTBdfQ==
 -->

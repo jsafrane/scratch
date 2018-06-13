@@ -13,9 +13,67 @@ Currently, CSI can be used only though PersistentVolume object. All other persis
 ## API
 `VolumeSource` needs to be extended with CSI volume source:
 ```go
+type VolumeSource struct {
+
+	// CSI (Container Storage Interface) represents storage that handled by an external CSI driver (Beta feature).
+	// +optional
+	CSI *CSIVolumeSource
+}
+
+
+// Represents storage that is managed by an external CSI volume driver (Beta feature)
+type CSIPersistentVolumeSource struct {
+	// Driver is the name of the driver to use for this volume.
+	// Required.
+	Driver string
+
+	// VolumeHandle is the unique volume name returned by the CSI volume
+	// plugin’s CreateVolume to refer to the volume on all subsequent calls.
+	// Required.
+	VolumeHandle string
+
+	// Optional: The value to pass to ControllerPublishVolumeRequest.
+	// Defaults to false (read/write).
+	// +optional
+	ReadOnly bool
+
+	// Filesystem type to mount.
+	// Must be a filesystem type supported by the host operating system.
+	// Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
+	// +optional
+	FSType string
+
+	// Attributes of the volume to publish.
+	// +optional
+	VolumeAttributes map[string]string
+
+	// ControllerPublishSecretRef is a reference to the secret object containing
+	// sensitive information to pass to the CSI driver to complete the CSI
+	// ControllerPublishVolume and ControllerUnpublishVolume calls.
+	// This field is optional, and  may be empty if no secret is required. If the
+	// secret object contains more than one secret, all secrets are passed.
+	// +optional
+	ControllerPublishSecretRef *SecretReference
+
+	// NodeStageSecretRef is a reference to the secret object containing sensitive
+	// information to pass to the CSI driver to complete the CSI NodeStageVolume
+	// and NodeStageVolume and NodeUnstageVolume calls.
+	// This field is optional, and  may be empty if no secret is required. If the
+	// secret object contains more than one secret, all secrets are passed.
+	// +optional
+	NodeStageSecretRef *SecretReference
+
+	// NodePublishSecretRef is a reference to the secret object containing
+	// sensitive information to pass to the CSI driver to complete the CSI
+	// NodePublishVolume and NodeUnpublishVolume calls.
+	// This field is optional, and  may be empty if no secret is required. If the
+	// secret object contains more than one secret, all secrets are passed.
+	// +optional
+	NodePublishSecretRef *SecretReference
+}
 
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5ODMwMzAwOTMsNjU1NzcxODEzLC01MT
+eyJoaXN0b3J5IjpbLTE4MTc3ODM0MTQsNjU1NzcxODEzLC01MT
 Y3MDY2NTBdfQ==
 -->

@@ -91,7 +91,7 @@ type VolumeAttachmentSpec struct {
     // <snip>
     
 	// Source represents the volume that should be attached.
-	Source VolumeAttachmentSource `json:"source" protobuf:"bytes,2,opt,name=source"`
+	Source VolumeAttachmentSource
 }
 
 // VolumeAttachmentSource represents a volume that should be attached.
@@ -99,10 +99,12 @@ type VolumeAttachmentSpec struct {
 // in future we may allow also inline volumes in pods.
 // Exactly one member can be set.
 type VolumeAttachmentSource struct {
-	// Name of the persistent volume to attach.
+	// Name of the persistent volume to attach. Exactly one of PersistentVolumeName or VolumeSource must be specified.
 	// +optional
-	PersistentVolumeName *string `json:"persistentVolumeName,omitempty" protobuf:"bytes,1,opt,name=persistentVolumeName"`
-    VolumeSource 
+	PersistentVolumeName *string 
+
+	// 
+    VolumeSource *v1.VolumeSource 
 }
 
 ```
@@ -120,6 +122,6 @@ Nothing needed, it works only with PVs
 #### External attacher
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5NDM1Mzc1MzMsNjU1NzcxODEzLC01MT
+eyJoaXN0b3J5IjpbLTE1Njg0ODAwMTUsNjU1NzcxODEzLC01MT
 Y3MDY2NTBdfQ==
 -->

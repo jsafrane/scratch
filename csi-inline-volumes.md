@@ -83,9 +83,10 @@ We assume that vast majority of in-line volumes won't need any secrets, as that 
 N/A, it works only with PVs and not in-line volumes.
 
 ### Attach/Detach
+Current `storage.VolumeAttachment` object contains only reference to PV that's being attached. It must be extended with VolumeSource for in-line pods
 
 ### MountDevice/SetUp/TearDown/UnmountDevice
-In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read secrets from appropriate source.
+In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source.
 
 ### Out of tree
 #### External provisioner
@@ -93,6 +94,6 @@ Nothing needed, it works only with PVs
 #### External attacher
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwNDcwMzgyOTEsNjU1NzcxODEzLC01MT
-Y3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbLTE1MzE0ODc3NCw2NTU3NzE4MTMsLTUxNj
+cwNjY1MF19
 -->

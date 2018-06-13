@@ -22,7 +22,7 @@ type VolumeSource struct {
 
 
 // Represents storage that is managed by an external CSI volume driver (Beta feature)
-type CSIPersistentVolumeSource struct {
+type CSIVolumeSource struct {
 	// Driver is the name of the driver to use for this volume.
 	// Required.
 	Driver string
@@ -53,7 +53,7 @@ type CSIPersistentVolumeSource struct {
 	// This field is optional, and  may be empty if no secret is required. If the
 	// secret object contains more than one secret, all secrets are passed.
 	// +optional
-	ControllerPublishSecretRef *SecretReference
+	ControllerPublishSecretRef *LocalObjectReference
 
 	// NodeStageSecretRef is a reference to the secret object containing sensitive
 	// information to pass to the CSI driver to complete the CSI NodeStageVolume
@@ -61,7 +61,7 @@ type CSIPersistentVolumeSource struct {
 	// This field is optional, and  may be empty if no secret is required. If the
 	// secret object contains more than one secret, all secrets are passed.
 	// +optional
-	NodeStageSecretRef *SecretReference
+	NodeStageSecretRef *LocalObjectReference
 
 	// NodePublishSecretRef is a reference to the secret object containing
 	// sensitive information to pass to the CSI driver to complete the CSI
@@ -69,11 +69,12 @@ type CSIPersistentVolumeSource struct {
 	// This field is optional, and  may be empty if no secret is required. If the
 	// secret object contains more than one secret, all secrets are passed.
 	// +optional
-	NodePublishSecretRef *SecretReference
+	NodePublishSecretRef *LocalObjectReference
 }
-
 ```
+
+The only difference between `CSIVolumeSource` (used in 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4MTc3ODM0MTQsNjU1NzcxODEzLC01MT
-Y3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbNjQyODgxNzUsNjU1NzcxODEzLC01MTY3MD
+Y2NTBdfQ==
 -->

@@ -108,9 +108,8 @@ type VolumeAttachmentSource struct {
 }
 ```
 
-* Whole `VolumeSource` is **copied** from `Pod` into `VolumeAttachment` by A/D controller. This allows extrnal CSI attacher to detach volumes for deleted pods
-* We provide validation that this `VolumeSource` contains only `CSIVolumeSource`.
-* This allows us to re-use `VolumeAttachment` for any other VolumeSource in the future.
+* Whole `VolumeSource` is **copied** from `Pod` into `VolumeAttachment` by A/D controller. This allows external CSI attacher to detach volumes for deleted pods without keeping any internal database of attached VolumeSources.
+* We provide validation that this `VolumeSource` contains only `CSIVolumeSource`. Using whole `VolumeSource` allows us to re-use `VolumeAttachment` for any other in-line volume in the future.
 * External CSI attacher processes either `PersistentVolumeName` or 
 
 ### MountDevice/SetUp/TearDown/UnmountDevice
@@ -122,6 +121,6 @@ Nothing needed, it works only with PVs
 #### External attacher
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODcyMzYwMDYyLDY1NTc3MTgxMywtNTE2Nz
-A2NjUwXX0=
+eyJoaXN0b3J5IjpbMTYxMzE2NTU3Niw2NTU3NzE4MTMsLTUxNj
+cwNjY1MF19
 -->

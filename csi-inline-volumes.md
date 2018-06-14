@@ -114,15 +114,9 @@ type VolumeAttachmentSource struct {
 * Since in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher must get permissions to read any Secrets in any namespace**.
 
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
-In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. **CSI plugin must cache these secrets in case a pod is deleted and kubelet looses access to these secrets, but still needs to unmount volumes.** CSI plugin will reuse already existing json files in `/var/lib/kubelet/` on the host to store these secrets.
-
-#### Secret handling in other volume plugins
-Existing volume plugins have various approach to secrets referenced from in-line volume in pods:
-
-* Flex, Ceph RBD, Ceph FS: needs secrets only at `SetUp` and `MountDevice` time. `TearDown` + `UnmountDevice` does not need the secrets
-* iSCSI, (current) CSI saves secrets into JSON file in `/var/lib/kubelet/plugins/k8s.io/<plugin name>/<volume name>/*.json`. Each volume has its own json file.
-
+In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. These secrets are needed only for `MountDevice/SetUp` calls and don't need to be cached until `TearDown`/`
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3Mz
-U4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbLTI0NjY3NjU0LDMyNDYxNDU2Myw3NzgyOD
+AwNjUsODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2NjUwXX0=
+
 -->

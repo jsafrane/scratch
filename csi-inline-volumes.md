@@ -112,12 +112,12 @@ type VolumeAttachmentSource struct {
 	* TBD: `CSIVolumeSource` would be enough...
 * External CSI attacher must be extended to  process either `PersistentVolumeName` or `VolumeSource`.
 * Since in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher must get permissions to read any Secrets in any namespace**.
-* CSI `ControllerUnpublishVolume` call (~ volume detach) requires the Secrets to be available at detach time. Current CSI attacher implementation simply expects that the Secrets are available at detach time. Secrets for PVs are "global", out of user's namespace, so this assumption is probably OK. For in-line volumes, we can either expect that the Secrets are available too (and volume is not detached if user deletes them) or external attacher must cache them somewhere, probably directly in `VolumeAttachment` object itself.
+* CSI `ControllerUnpublishVolume` call (~ volume detach) requires the Secrets to be available at detach time. Current CSI attacher implementation simply expects that the Secrets are available at detach time. Secrets for PVs are "global", out of user's namespace, so this assumption is probably OK. For in-line volumes, **we can either expect that the Secrets are available too (and volume is not detached if user deletes them) or external attacher must cache them somewhere, probably directly in `VolumeAttachment` object itself.**
 
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. These secrets are needed only for `MountDevice/SetUp` calls and don't need to be cached until `TearDown`/`UnmountDevice`.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTk3NTg3NDMxLC0xODY3ODM0NDI5LC03Nj
+eyJoaXN0b3J5IjpbOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03Nj
 kyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIs
 NjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
 -->

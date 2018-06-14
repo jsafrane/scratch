@@ -119,7 +119,10 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
 #### Secret handling in other volume plugins
 Existing volume plugins have various approach to secrets referenced from in-line volume in pods:
 
+* The need secrets only at SetUp / MountDevice time. TearDow
+* 
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2Nzg2MTU1NjUsNzc4MjgwMDY1LDgzMz
-czNTgwMiw2NTU3NzE4MTMsLTUxNjcwNjY1MF19
+eyJoaXN0b3J5IjpbMTY4NDUxNzg1Miw3NzgyODAwNjUsODMzNz
+M1ODAyLDY1NTc3MTgxMywtNTE2NzA2NjUwXX0=
 -->

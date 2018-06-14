@@ -116,7 +116,10 @@ type VolumeAttachmentSource struct {
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. **CSI plugin must cache these secrets in case a pod is deleted and kubelet looses access to these secrets, but still needs to unmount volumes.** CSI plugin will reuse already existing json files in `/var/lib/kubelet/` on the host to store these secrets.
 
+#### Secret handling in other volume plugins
+Existing volume plugins have various approach to secrets referenced from in-line volume in pods:
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzc4MjgwMDY1LDgzMzczNTgwMiw2NTU3Nz
-E4MTMsLTUxNjcwNjY1MF19
+eyJoaXN0b3J5IjpbLTE2Nzg2MTU1NjUsNzc4MjgwMDY1LDgzMz
+czNTgwMiw2NTU3NzE4MTMsLTUxNjcwNjY1MF19
 -->

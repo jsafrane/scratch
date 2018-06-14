@@ -119,11 +119,10 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
 #### Secret handling in other volume plugins
 Existing volume plugins have various approach to secrets referenced from in-line volume in pods:
 
-* Flex, Ceph RBD, Ceph FSThese need secrets only at `SetUp` and `MountDevice` time. `TearDown` + `UnmountDevice` does not need the secrets
-	* 
-* iSCSI saves secrets into JSON file in /var/lib/kubelet/plugins/k8s.io/iscsi/<volume name>/iscsi.json
-* 
+* Flex, Ceph RBD, Ceph FS: needs secrets only at `SetUp` and `MountDevice` time. `TearDown` + `UnmountDevice` does not need the secrets
+* iSCSI, (current) CSI saves secrets into JSON file in /var/lib/kubelet/plugins/k8s.io/<plugin name>/<volume name>/iscsi.json
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4NTAwMjAwNDMsNzc4MjgwMDY1LDgzMz
+eyJoaXN0b3J5IjpbLTE1NzA5MDI2NjcsNzc4MjgwMDY1LDgzMz
 czNTgwMiw2NTU3NzE4MTMsLTUxNjcwNjY1MF19
 -->

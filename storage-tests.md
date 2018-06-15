@@ -99,19 +99,10 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
 * Remove `[Slow]` from `volume_provisioning.go`. On GCE, it tests 3 storage classes in 46 seconds. We have ~7 storage classes on AWS, it could take 2-3 minutes and it's not that slow.
 
 * Rework Ceph server image to be able to run multiple times on a node.
-* * Rework iSCSI server image
-The iSCSI "server container" does not run any daemon. It only configures iSCSI target in kernel. Kernel can can serve multiple LUNs on one node (one for each test) if following conditions are met:
-* It must run with HostNetwork=true to be able to serve LUNs from different containers.
-* `targetcli` running in containers should see all fake "block devices" (i.e. plain files with ext2 FS in them) that are exported as LUNs, even if such LUN was exported by a different container on the same node. Therefore the container should copy the file to the host, e.g. `/srv/iscsi` directory and this directory is shared to all containers as HostPath volume.
 
-### Deploy iSCSI and Ceph servers on test startup
-If we choose to run iSCSI or Ceph servers in `SynchronizedBeforeSuite`:
+* Rework iSCSI server image to be able to run multiple times on a node.
 
-* Add `--deploy-storage-servers=ceph,iscsi` parameter to e2e.go
-* In `SynchronizedBeforeSuite`, run servers specified on the command line. Create appropriate storage classes for them and pre-provision PVs for them in case they don't support dynamic provisioning.
-* Rework the tests not to start the servers and use PVCs instead.
-
-### Run all volume plugin tests
+* Add new test job that runs all storage testsfor
 We should run all "universal" volume plugin tests in one suite, incl. Ceph and iSCSI.
 
 These tests need:
@@ -153,6 +144,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzA3NDQ3MjYsLTE5MTcwMDg5MjQsMTA5Mj
-k3ODgwNl19
+eyJoaXN0b3J5IjpbLTEzMzIwMDY3NjYsLTE5MTcwMDg5MjQsMT
+A5Mjk3ODgwNl19
 -->

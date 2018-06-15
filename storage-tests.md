@@ -106,12 +106,9 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
   * iSCSI and Ceph kernel modules, which are not available on GCI / COS (the usual OS for e2e test).
 	  * ->**Run the tests on Ubuntu.**
   * Client utilities present on the OS. These are not available neither on COS or Ubuntu image in e2e tests.
-	  * ** Use exisi`MOUNT_CONTAINERS` alpha feature. It lets kubelet to run NFS, Gluster, iSCSI, Ceph RBD and CephFS mount utilities in containers and not on the host. As benefit, we check that MountPropagation feature works as expected and we catch regressions early. 
-
-#### Design
-* Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset)
-
-* Add `--deploy-storage-utilities` parameters to `test/e2e.go`. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS (assuming they have correct kernel modules available).
+	  * ** Use existing `MOUNT_CONTAINERS` alpha feature. It lets kubelet to run NFS, Gluster, iSCSI, Ceph RBD and CephFS mount utilities in containers and not on the host. As benefit, we check that MountPropagation feature works as expected and we catch regressions early. 
+	  * **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset)
+	  * **Add `--deploy-storage-utilities` parameters to `test/e2e.go`. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS (assuming they have correct kernel modules available).
 
 * Prepare new container image with Ceph (RBD + CephFS) server so it supports dynamic provisioning.
 	* We want to test Ceph RBD dynamic provisioning.
@@ -143,6 +140,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjEzMDQ5MDUsLTE5MTcwMDg5MjQsMTA5Mj
-k3ODgwNl19
+eyJoaXN0b3J5IjpbLTc0NjM4NDE3MCwtMTkxNzAwODkyNCwxMD
+kyOTc4ODA2XX0=
 -->

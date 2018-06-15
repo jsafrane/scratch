@@ -110,9 +110,10 @@ As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag a
 In order to run these tests, we need:
 * **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`. Kubelet already has a way howto run these mount utilities in containers instead on host, see below.
 
-* **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes in`SynchronizedBeforeSuite`. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFSvolum (assuming they have correct kernel modules available).
+* **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes in`SynchronizedBeforeSuite`. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS volumes.
 
-* Create a new job`
+* Create a new job `pull-kubernetes-gce-volumes` that:
+	* Install Ubuntu cluster (to get all necessary kernel modu
 The new job should:
 * Install Ubuntu cluster with `MOUNT_CONTAINERS` 
 	  * -> 
@@ -133,6 +134,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQxNzY2NDIzNSwtMTkxNzAwODkyNCwxMD
-kyOTc4ODA2XX0=
+eyJoaXN0b3J5IjpbLTEwNzE1NzI3MzYsLTE5MTcwMDg5MjQsMT
+A5Mjk3ODgwNl19
 -->

@@ -87,19 +87,19 @@ Individual tests have additional `[Slow]`, `[Serial]` and `[Disruptive]` tags as
 #### Ceph server image
 Current Ceph RBD and CephFS tests start a new server in each test. Current Ceph image at  `test/images/volumes-tester/rbd` can run only **once** per node, because the image has hardcoded RBD pool and RBD image ("volume") name.
  
- This should be fixed, we don't want `[S
+ This should be fixed, we don't want Ceph tests to be `[Serial]`.
+ 
 #### iSCSI server image
 Similarly, only one iSCSI container based on   `test/images/volumes-tester/iscsi`, because it configures iSCSI target ("server") in kernel and does not count with multiple such containers configuring the same kernel.
 
+This should be fixed, we don't want iSCSI tests to be `[Serial]`.
+ 
 ## Proposed changes
 
-### Low hanging fruits
 * Remove `[Slow]` from `volume_provisioning.go`. On GCE, it tests 3 storage classes in 46 seconds. We have ~7 storage classes on AWS, it could take 2-3 minutes and it's not that slow.
 
-### Rework Ceph server image
-Based on decision above.
-	
-### Rework iSCSI server image
+* Rework Ceph server image to be able to run multiple times on a node.
+* * Rework iSCSI server image
 The iSCSI "server container" does not run any daemon. It only configures iSCSI target in kernel. Kernel can can serve multiple LUNs on one node (one for each test) if following conditions are met:
 * It must run with HostNetwork=true to be able to serve LUNs from different containers.
 * `targetcli` running in containers should see all fake "block devices" (i.e. plain files with ext2 FS in them) that are exported as LUNs, even if such LUN was exported by a different container on the same node. Therefore the container should copy the file to the host, e.g. `/srv/iscsi` directory and this directory is shared to all containers as HostPath volume.
@@ -153,6 +153,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDE0NjEyODMwLC0xOTE3MDA4OTI0LDEwOT
-I5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbMzA3NDQ3MjYsLTE5MTcwMDg5MjQsMTA5Mj
+k3ODgwNl19
 -->

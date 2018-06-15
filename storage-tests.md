@@ -102,27 +102,15 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
 
 * Rework iSCSI server image to be able to run multiple times on a node.
 
+* Add a new test job that will runn a
+### 
 * Add new test job that runs all storage tests for all volume plugins, incl. iSCSI and Ceph that don't have native support in GCI / COS. These tests need: 
   * iSCSI and Ceph kernel modules, which are not available on GCI / COS (the usual OS for e2e test).
 	  * ->**Run the tests on Ubuntu.**
   * Client utilities present on the OS. These are not available neither on COS or Ubuntu image in e2e tests.
 	  * -> **Let kubelet run mount utilities in containers instead of the host**. There already exists alpha feature `MOUNT_CONTAINERS` that does exactly that.  As benefit, we check that MountPropagation feature works as expected and we catch regressions early. See below where the container comes from and how it's deployed. 
 	  * -> **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`.
-	  * -**Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS (assuming they have correct kernel modules available).
-
-* Prepare new container image with Ceph (RBD + CephFS) server so it supports dynamic provisioning.
-	* We want to test Ceph RBD dynamic provisioning.
-	* We want to pre-provision number of CephFS PVs so we can run CephFS in parallel (it does not support dynamic provisioning).
-
-*   Add new e2e job (`ci-kubernetes-volumes`) that:
-	* Installs Ubuntu (unlike COS it has all the kernel modules)
-	* Runs Kubernetes cluster with feature `MountContainers=true`
-	* Start e2e tests with `--deploy-storage-utilities`, `--focus=”Feature:Volumes|sig-storage”` and 
-`--deploy-storage-servers=iscsi,ceph` (if needed).
-	* All iSCSI + NFS + Gluster + Ceph tests will run there (see below how to focus them).
-	
-* Optionally, add `ci-kubernetes-volumes-serial` to run run all disruptive or serial volume plugin tests.
-
+	  * -> **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS (assuming they have correct kernel modules available).
 ### Re-tag volume tests
 In order to have a new test job that tests most of the volume plugins, it's necessary to add `[Volume:<plugin name>]` to all tests, so we can `--focus=[Volume:.*]` in the test job. Existing `[Feature:Volumes]` will be kept to skip Ceph and iSCSI tests in most jobs that can't run them.
 
@@ -140,6 +128,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyODM1MjcwODgsLTE5MTcwMDg5MjQsMT
-A5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbLTQxNTA2MDc4MiwtMTkxNzAwODkyNCwxMD
+kyOTc4ODA2XX0=
 -->

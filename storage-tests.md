@@ -102,11 +102,9 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
 
 * Rework iSCSI server image to be able to run multiple times on a node.
 
-* Add new test job that runs all storage testsfor
-We should run all "universal" volume plugin tests in one suite, incl. Ceph and iSCSI.
-
-These tests need:
-* iSCSI and Ceph kernel modules, which are not available on GCI / COS (the usual OS for e2e test). Ubuntu is an option.
+* Add new test job that runs all storage tests for all volume plugins, incl. iSCSI and Ceph that don't have native support in GCI / COS. These tests need: 
+  * iSCSI and Ceph kernel modules, which are not available on GCI / COS (the usual OS for e2e test).
+  * 
 * Client utilities present on the OS. These are not available neither on COS or Ubuntu image in e2e tests. We have `MOUNT_CONTAINERS` alpha feature that can be used to run NFS, Gluster, iSCSI, Ceph RBD and CephFS mount utilities in containers and not on the host. As benefit, we check that MountPropagation feature works as expected and we catch regressions early.
 
 #### Design
@@ -144,6 +142,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzMzIwMDY3NjYsLTE5MTcwMDg5MjQsMT
-A5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbMjEyMzM5NzA5NiwtMTkxNzAwODkyNCwxMD
+kyOTc4ODA2XX0=
 -->

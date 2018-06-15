@@ -1,10 +1,10 @@
 # Kubernetes volume plugin tests
 ## Goal
 * Capture current state of e2e tests of Kubernetes volume plugins.
-* Outline new e2e jobs to test volume plugins.
+* Outline new e2e jobs to test as much volume plugins as possible.
 
 ### Out of scope
-* Restructure tests so all storage features are tested with as much volume plugins as possible.
+* Restructure tests so all storage features are tested with as much volume plugins as possible. This is long-term effort.
 
 ## Current volume plugin tests
 E2e tests are in `test/e2e/storage`.
@@ -103,8 +103,6 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
 * Rework iSCSI server image to be able to run multiple times on a node.
 
 * Add a new test job that will run tests for all volume plugins incl. iSCSI and Ceph. This requires multiple changes covered in the chapter below.
-
-* Add more
  
 ### Extra job for volume plugin tests.
 As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag and do not run in any existing job, because no job install Ceph or iSCSI client utilities and/or kernel modules.
@@ -149,7 +147,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTE5OTg0ODg0MiwtMjA2OTgwNTA5MCwtMT
-E5MDI5MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcxMzEwMSwtMTkx
-NzAwODkyNCwxMDkyOTc4ODA2XX0=
+eyJoaXN0b3J5IjpbODg3OTAzNjIzLC0yMDY5ODA1MDkwLC0xMT
+kwMjkxNTc5LC0xOTI2ODg1MDgyLC0xMTkxNzEzMTAxLC0xOTE3
+MDA4OTI0LDEwOTI5Nzg4MDZdfQ==
 -->

@@ -115,10 +115,12 @@ These tests need:
 New code (or configuration):
 * **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`.
 
+* **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS (assuming they have correct kernel modules available).
+
+* Create a new job`
 The new job should:
 * Install Ubuntu cluster with `MOUNT_CONTAINERS` 
 	  * -> 
-	  * -> **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS (assuming they have correct kernel modules available).
 ### Re-tag volume tests
 In order to have a new test job that tests most of the volume plugins, it's necessary to add `[Volume:<plugin name>]` to all tests, so we can `--focus=[Volume:.*]` in the test job. Existing `[Feature:Volumes]` will be kept to skip Ceph and iSCSI tests in most jobs that can't run them.
 
@@ -136,6 +138,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNTg0MzI3MjMsLTE5MTcwMDg5MjQsMT
+eyJoaXN0b3J5IjpbLTE4OTg5Mjg4MTQsLTE5MTcwMDg5MjQsMT
 A5Mjk3ODgwNl19
 -->

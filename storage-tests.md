@@ -116,9 +116,10 @@ In order to run these tests, we need:
 	* Install Ubuntu cluster with`MountContainers` alpha feature enabled
 	  *	Ubuntu is used to get all necessary kernel modules. COS does not ship them.
 	  *	`MountContainers` alpha feature [allows kubelet to run mount utilities in containers instead on the host](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/containerized-mounter-pod.md#implementation-notes).
-  * Run the tests with `e2e.test --deploy-storage-utilities`, as defined above.
-  * Run all storage tests: `--ginkgo.focus=[sig-storage] --ginkgo.skip=Distruptive|Flaky|Serial`
-  
+  * Run the tests with `e2e.test --deploy-storage-utilities` to deploy the mount utilities for kubelet in containers.
+  * Run all storage tests with: `--ginkgo.focus=[sig-storage] --ginkgo.skip=Distruptive|Flaky|Serial`
+
+I tried all the above with Kubernetes cluster started in this way:L
 ## Future directions
 Out of scope of this proposal:
 * Refactor tests for individual features so we can test the feature with all volume plugins that support it.
@@ -132,6 +133,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTYzNzc4MDY0MywtMTE5MTcxMzEwMSwtMT
+eyJoaXN0b3J5IjpbMTA2MjgxOTc4MCwtMTE5MTcxMzEwMSwtMT
 kxNzAwODkyNCwxMDkyOTc4ODA2XX0=
 -->

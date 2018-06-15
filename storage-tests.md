@@ -132,7 +132,7 @@ KUBE_FEATURE_GATES=MountContainers=true KUBE_GCE_NODE_IMAGE=ubuntu-gke-1604-xeni
 ```
 And ran all existing sig-storage tests with:
 ```
-GINKGO_PARALLEL=y go run hack/e2e.go  -- --test  --test_args="--ginkgo.focus=\\[sig-storage\\] --ginkgo.skip=\\[Disruptive\\]|\\[Flaky\\]|\\[Serial\\]|\\[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*\\]|\\[NodeFeature:.+\\] "
+GINKGO_PARALLEL=y go run hack/e2e.go  -- --test  --test_args="--deploy-storage-utilities --ginkgo.focus=\\[sig-storage\\] --ginkgo.skip=\\[Disruptive\\]|\\[Flaky\\]|\\[Serial\\]|\\[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*\\]|\\[NodeFeature:.+\\] "
 ```
 
 ## Future directions
@@ -146,8 +146,9 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework that provides a server + a volume to test a feature with.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTYzMDgxNjUxLC0xMzUxNjQ0MTY5LC0xMz
-k3Nzk3OCwtMjExNTI5NjU5Miw4ODc5MDM2MjMsLTIwNjk4MDUw
-OTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3MTMxMD
-EsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbMTM3NDI5Nzc3MSw5NjMwODE2NTEsLTEzNT
+E2NDQxNjksLTEzOTc3OTc4LC0yMTE1Mjk2NTkyLDg4NzkwMzYy
+MywtMjA2OTgwNTA5MCwtMTE5MDI5MTU3OSwtMTkyNjg4NTA4Mi
+wtMTE5MTcxMzEwMSwtMTkxNzAwODkyNCwxMDkyOTc4ODA2XX0=
+
 -->

@@ -54,15 +54,13 @@ In this document, "universal volume plugins" are plugins that are not bound to a
 | HostPath | N/A | 
 | iSCSI | N/A | Yes |
 | Local | Yes | No | | `persistent_volumes-local.go`
-| NFS | Yes (via external provisioner) | Yes | Subpath | `nfs_persistent_volume-disruptive.go`
+| NFS | Yes| Yes | Subpath | `nfs_persistent_volume-disruptive.go`
 | Photon PD | N/A | No |
 | Portworx | No | No |
 | Quobyte | No | No |
 | Ceph RBD | No | Yes |
 | ScaleIO | No | No |
 | StorageOS | No | No |
-
-*) Atomic Writer = ConfigMap, DownwardAPI, Projected and Secrets volumes.
 
 #### Test jobs
 For those plugins that have some tests, we run them in these test jobs:
@@ -148,7 +146,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTI5MDkyNDA1NSw4ODc5MDM2MjMsLTIwNj
+eyJoaXN0b3J5IjpbMTcxNTk5NTQwNiw4ODc5MDM2MjMsLTIwNj
 k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
 MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
 -->

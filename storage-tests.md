@@ -92,7 +92,7 @@ Ceph RBD and CephFS tests start a new Ceph server in each test. Current Ceph ima
 #### iSCSI server image
 Similarly, only one iSCSI container based on   `test/images/volumes-tester/iscsi`, because it configures iSCSI target ("server") in kernel and does not count with multiple such containers configuring the same kernel.
 
-This should be fixed, we don't want iSCSI tests to be `[Serial]`.
+This should be fixed, we want to run tests in parallel, even with several servers on the same node.
  
 ## Proposed changes
 
@@ -104,8 +104,8 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
 
 * Add a new test job that will run tests for all volume plugins incl. iSCSI and Ceph. This requires multiple changes covered in the chapter below.
  
-### Extra job for volume plugin tests.
-As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag and do not run in any existing job, because no job install Ceph or iSCSI client utilities and/or kernel modules.
+### New job for volume plugin tests.
+As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag to be skipped on platforms that don't provide Ceph or iSCSI client utilities and/or kernel modules. No job provides these utilities
 
 In order to run these tests, we need:
 * **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`. Kubelet already has a way howto run these mount utilities in containers instead on host, see below.
@@ -147,7 +147,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg1ODE4NDM5Niw4ODc5MDM2MjMsLTIwNj
-k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
-MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbLTExMjA4ODEzMTksODg3OTAzNjIzLC0yMD
+Y5ODA1MDkwLC0xMTkwMjkxNTc5LC0xOTI2ODg1MDgyLC0xMTkx
+NzEzMTAxLC0xOTE3MDA4OTI0LDEwOTI5Nzg4MDZdfQ==
 -->

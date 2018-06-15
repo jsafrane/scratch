@@ -120,10 +120,11 @@ In order to run these tests, we need:
 	  *	`MountContainers` alpha feature allows kubelet to run mount utilities in containers instead on the host. 
   * Runs the tests with `e2e.test --deploy-storage-utilities` to deploy the mount utilities for kubelet in containers.
   * Runs all storage tests with: `--ginkgo.focus=[sig-storage] --ginkgo.skip=[Distruptive]|[Flaky]|[Serial]|[Feature:<all features except Volumes>]`.
+	  * This naturally includes `[Slow]`. See below for experimental run results.
 	  * We want `[Feature:Volumes]` in and  all other `[Feature:.*]` out.
-	  * Go regexp does not allow negative matching `(?!Feature:Volumes)`
-	  * ->  we must "unroll" the negative match into `[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*]`.
-	  * It would be possible to re-tag volume tests from `[Feature:Volumes]` to `[Volumes]`, but then we must add `--skip=[Volumes]` to **all** jobs that skip `[Feature:.+]`.
+		  * Go regexp does not allow negative matching `(?!Feature:Volumes)`
+		  * ->  we must "unroll" the negative match into `[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*]`.
+		  * It would be possible to re-tag volume tests from `[Feature:Volumes]` to `[Volumes]`, but then we must add `--skip=[Volumes]` to **all** jobs that skip `[Feature:.+]`.
 
 I tried all the above with Kubernetes cluster started in this way:
 ```
@@ -145,8 +146,8 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework that provides a server + a volume to test a feature with.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzNTE2NDQxNjksLTEzOTc3OTc4LC0yMT
-E1Mjk2NTkyLDg4NzkwMzYyMywtMjA2OTgwNTA5MCwtMTE5MDI5
-MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcxMzEwMSwtMTkxNzAwOD
-kyNCwxMDkyOTc4ODA2XX0=
+eyJoaXN0b3J5IjpbOTYzMDgxNjUxLC0xMzUxNjQ0MTY5LC0xMz
+k3Nzk3OCwtMjExNTI5NjU5Miw4ODc5MDM2MjMsLTIwNjk4MDUw
+OTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3MTMxMD
+EsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
 -->

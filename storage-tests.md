@@ -115,7 +115,7 @@ In order to run these tests, we need:
 * **Create a new job `pull-kubernetes-gce-volumes`** that:
 	* Installs Ubuntu cluster with`MountContainers` alpha feature enabled
 	  *	Ubuntu is used to get all necessary kernel modules. COS does not ship them.
-	  *	`MountContainers` alpha feature [allows kubelet to run mount utilities in containers instead on the host](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/containerized-mounter-pod.md#implementation-notes).
+	  *	`MountContainers` alpha feature [allows kubelet to run mount utilities in containers instead on the host](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/containerized-mounter-pod.md#implementation-notes).  From OS point of view it works the same as CSI, running tests 
   * Runs the tests with `e2e.test --deploy-storage-utilities` to deploy the mount utilities for kubelet in containers.
   * Runs all storage tests with: `--ginkgo.focus=[sig-storage] --ginkgo.skip=[Distruptive]|[Flaky]|[Serial]|[Feature:<all features except Volumes>]`.
 	  * We want `[Feature:Volumes]` in and  all other `[Feature:.*]` out.
@@ -147,7 +147,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTUxNjMxMjE2Niw4ODc5MDM2MjMsLTIwNj
-k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
-MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbMzg1ODAwNjAxLDg4NzkwMzYyMywtMjA2OT
+gwNTA5MCwtMTE5MDI5MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcx
+MzEwMSwtMTkxNzAwODkyNCwxMDkyOTc4ODA2XX0=
 -->

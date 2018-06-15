@@ -125,7 +125,11 @@ KUBE_FEATURE_GATES=MountContainers=true KUBE_GCE_NODE_IMAGE=ubuntu-gke-1604-xeni
 ```
 And ran the tests:
 ```
+go run hack/e2e.go  -- --test  --test_args="
+    --ginkgo.focus=\\[sig-storage\\]
+    --ginkgo.skip=\\[Disruptive\\]|\\[Flaky\\]|\\[Serial\\]|\\[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*\\]|\\[NodeFeature:.+\\]"
 
+Notice complicated `
 ```
 ## Future directions
 Out of scope of this proposal:
@@ -140,6 +144,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5MjY4ODUwODIsLTExOTE3MTMxMDEsLT
-E5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbMTQ1ODk4NTM0MywtMTkyNjg4NTA4MiwtMT
+E5MTcxMzEwMSwtMTkxNzAwODkyNCwxMDkyOTc4ODA2XX0=
 -->

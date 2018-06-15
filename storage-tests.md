@@ -144,11 +144,11 @@ Out of scope of this proposal:
 		* Resize
 		* Attach limits
 		* Subpath
-	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
+	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework that provis
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTQwNjM2NjE4NywtMTM5Nzc5NzgsLTIxMT
-UyOTY1OTIsODg3OTAzNjIzLC0yMDY5ODA1MDkwLC0xMTkwMjkx
-NTc5LC0xOTI2ODg1MDgyLC0xMTkxNzEzMTAxLC0xOTE3MDA4OT
-I0LDEwOTI5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbODk5NjQwNzUsLTEzOTc3OTc4LC0yMTE1Mj
+k2NTkyLDg4NzkwMzYyMywtMjA2OTgwNTA5MCwtMTE5MDI5MTU3
+OSwtMTkyNjg4NTA4MiwtMTE5MTcxMzEwMSwtMTkxNzAwODkyNC
+wxMDkyOTc4ODA2XX0=
 -->

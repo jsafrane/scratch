@@ -117,7 +117,8 @@ In order to run these tests, we need:
 	  *	Ubuntu is used to get all necessary kernel modules. COS does not ship them.
 	  *	`MountContainers` alpha feature [allows kubelet to run mount utilities in containers instead on the host](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/containerized-mounter-pod.md#implementation-notes).
   * Runs the tests with `e2e.test --deploy-storage-utilities` to deploy the mount utilities for kubelet in containers.
-  * Runs all storage tests with: `--ginkgo.focus=[sig-storage] --ginkgo.skip=[Distruptive]|[Flaky]|[Serial]|[Feature:<all features except Volumes>]`. We want `[Feature:Volumes`
+  * Runs all storage tests with: `--ginkgo.focus=[sig-storage] --ginkgo.skip=[Distruptive]|[Flaky]|[Serial]|[Feature:<all features except Volumes>]`.
+	  * We want `[Feature:Volumes]` in and  all other `[Feature:.*]` out. Go regexp does not allow negative matching `(?!Feature:Volumes)`, so 
 
 I tried all the above with Kubernetes cluster started in this way:
 ```
@@ -145,7 +146,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3MzgwMTk1MDYsLTIwNjk4MDUwOTAsLT
-ExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3MTMxMDEsLTE5
-MTcwMDg5MjQsMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbLTk5NzkxMTc5OCwtMjA2OTgwNTA5MCwtMT
+E5MDI5MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcxMzEwMSwtMTkx
+NzAwODkyNCwxMDkyOTc4ODA2XX0=
 -->

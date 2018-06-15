@@ -105,15 +105,10 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
 * Add a new test job that will run tests for all volume plugins incl. iSCSI and Ceph. This requires multiple changes covered in the chapter below.
  
 ### Extra job for volume plugin tests.
-As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag and do not run in any existing job, because no job install Ceph or iSCSI client utilities.
+As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag and do not run in any existing job, because no job install Ceph or iSCSI client utilities and/or kernel modules.
 
-These tests need:
-* iSCSI and Ceph kernel modules, which are not available on GCI / COS (the usual OS for e2e test).
-* Client utilities present on the OS. They are not available neither on COS or Ubuntu image used in e2e tests.
-  * -> **Let kubelet run mount utilities in containers instead of the host**. There already exists alpha feature `MOUNT_CONTAINERS` that does exactly that.  As benefit, we check that MountPropagation feature works as expected and we catch regressions early. See below where the container comes from and how it's deployed. 
-
-New code (or configuration):
-* **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`.
+In order to run these tests, we need:
+* **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`. Kubelet already has a way howto run these moun
 
 * **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS (assuming they have correct kernel modules available).
 
@@ -138,6 +133,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4OTg5Mjg4MTQsLTE5MTcwMDg5MjQsMT
-A5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbOTY1MDQ3NDA2LC0xOTE3MDA4OTI0LDEwOT
+I5Nzg4MDZdfQ==
 -->

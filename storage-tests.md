@@ -85,12 +85,7 @@ Individual tests have additional `[Slow]`, `[Serial]` and `[Disruptive]` tags as
 `[Feature:Volumes]` is used in Ceph and iSCSI tests to skip them in all jobs, because no job install Ceph or iSCSI client utilities.
 
 #### Ceph server image
-Current Ceph RBD and CephFS tests start a new server in each test. Current Ceph image at  `test/images/volumes-tester/rbd` can run only **once** per node (due to kernel?). We have following options:
-
-* Run Ceph tests in `[Serial]` so the Ceph servers don't accidentally conflict on one node. This is too slow.
-* Rework the server image to be able to run multiple Ceph servers on one node. Not sure if this is possible.
-* Run the Ceph server in `SynchronizedBeforeSuite` and either enable dynamic provisioning (for RBD) or pre-provision number of PVs (for CephFS that does not support dynamic provisioning).
-
+Current Ceph RBD and CephFS tests start a new server in each test. Current Ceph image at  `test/images/volumes-tester/rbd` can run only **once** per node, because the image has 
 #### iSCSI server image
 Similarly, only one iSCSI container based on   `test/images/volumes-tester/iscsi` can run on a node. We have the same options:
 
@@ -160,5 +155,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbLTE5NzUzOTg4MTgsLTE5MTcwMDg5MjQsMT
+A5Mjk3ODgwNl19
 -->

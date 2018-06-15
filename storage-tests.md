@@ -96,13 +96,15 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
  
 ## Proposed changes
 
-* Remove `[Slow]` from `volume_provisioning.go`. On GCE, it tests 3 storage classes in 46 seconds. We have ~7 storage classes on AWS, it could take 2-3 minutes and it's not that slow.
+* Remove `[Slow]` from `volume_provisioning.go`. On GCE, it tests 3 storage classes in 46 seconds. We have ~7 storage classes on AWS, it could take 2-3 minutes and it's not that slow. There is no `-slow` suite on AWS that would cover them.
 
 * Rework Ceph server image to be able to run multiple times on a node.
 
 * Rework iSCSI server image to be able to run multiple times on a node.
 
 * Add a new test job that will run tests for all volume plugins incl. iSCSI and Ceph. This requires multiple changes covered in the chapter below.
+
+* Add more
  
 ### Extra job for volume plugin tests.
 As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag and do not run in any existing job, because no job install Ceph or iSCSI client utilities and/or kernel modules.
@@ -147,7 +149,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzQyODUxNTYyLC0yMDY5ODA1MDkwLC0xMT
-kwMjkxNTc5LC0xOTI2ODg1MDgyLC0xMTkxNzEzMTAxLC0xOTE3
-MDA4OTI0LDEwOTI5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbMTE5OTg0ODg0MiwtMjA2OTgwNTA5MCwtMT
+E5MDI5MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcxMzEwMSwtMTkx
+NzAwODkyNCwxMDkyOTc4ODA2XX0=
 -->

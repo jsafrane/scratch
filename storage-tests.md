@@ -1,7 +1,7 @@
 # Kubernetes volume plugin tests
 ## Goal
 * Capture current state of e2e tests of Kubernetes volume plugins.
-* Not all volume plugins tests are run. Outline new e2e jobs to run **existing** tests of all volume plugins.
+* Some volume plugins don't run in any e2e job. Design new e2e job(s) to run **existing** tests of all volume plugins.
 
 ### Out of scope
 * Restructure tests so all storage features are tested with as much volume plugins as possible. This is long-term effort.
@@ -21,7 +21,7 @@ Existing volume tests:
 | AWS EBS         | yes | yes | Resize, Attach/Detach (`pd.go`), Metrics |
 | Azure DD        | yes | yes | **none** |
 | Azure File      | **no** | **no** | **none**
-| GCE PD          | yes | yes | Resize, Attach/Detach (`pd.go`), Subpath, Metrics, MountOptions | Regional PD, CSI 
+| GCE PD          | yes | yes | Resize, Attach/Detach (`pd.go`), Subpath, Metrics, MountOptions | Regional PD 
 | OpenStack Cinder| yes | yes | **none**
 | vSphere disk    | yes | yes | **none** | whole `vsphere/` subdirectory 
  
@@ -148,7 +148,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1MzEwMTA3Niw4ODc5MDM2MjMsLTIwNj
-k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
-MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbLTIyMDU0MzMzLDg4NzkwMzYyMywtMjA2OT
+gwNTA5MCwtMTE5MDI5MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcx
+MzEwMSwtMTkxNzAwODkyNCwxMDkyOTc4ODA2XX0=
 -->

@@ -131,6 +131,8 @@ I tried all the above with Kubernetes cluster started in this way:
 ```
 KUBE_FEATURE_GATES=MountContainers=true KUBE_GCE_NODE_IMAGE=ubuntu-gke-1604-xenial-v20170816-1 KUBE_GCE_NODE_PROJECT=ubuntu-os-gke-cloud KUBE_NODE_OS_DISTRIBUTION=ubuntu  cluster/kube-up.sh
 ```
+(+ deploy mount container images).
+
 And ran all existing sig-storage tests with:
 ```
 GINKGO_PARALLEL=y go run hack/e2e.go  -- --test  --test_args="--deploy-storage-utilities --ginkgo.focus=\\[sig-storage\\] --ginkgo.skip=\\[Disruptive\\]|\\[Flaky\\]|\\[Serial\\]|\\[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*\\]|\\[NodeFeature:.+\\] "
@@ -138,7 +140,7 @@ GINKGO_PARALLEL=y go run hack/e2e.go  -- --test  --test_args="--deploy-storage-u
 
 Ran 324 of 1030 Specs in 968.230 seconds
 ```
-~16 minutes is not that bad even when it included bunch of `[Slow]` 
+~16 minutes is not that bad even when it included bunch of `[Slow]` tests.
 
 ## Future directions
 Out of scope of this proposal:
@@ -151,7 +153,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework that provides a server + a volume to test a feature with.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzNzI2NjY4NzAsLTY1NDE1NjU4MywxMz
+eyJoaXN0b3J5IjpbLTE2MzE1MTE1OTAsLTY1NDE1NjU4MywxMz
 c0Mjk3NzcxLDk2MzA4MTY1MSwtMTM1MTY0NDE2OSwtMTM5Nzc5
 NzgsLTIxMTUyOTY1OTIsODg3OTAzNjIzLC0yMDY5ODA1MDkwLC
 0xMTkwMjkxNTc5LC0xOTI2ODg1MDgyLC0xMTkxNzEzMTAxLC0x

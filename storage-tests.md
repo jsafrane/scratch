@@ -81,7 +81,8 @@ For those plugins that have some tests, we run them in these test jobs:
 | Ceph RBD | **none** | `[Feature:Volumes]` | Requires Ceph kernel modules and client utilities
 
 Individual tests have additional `[Slow]`, `[Serial]` and `[Disruptive]` tags as appropriate.
-`[Feature:Volumes]` is used in Ceph and iSCSI tests to skip them in all jobs, because no job install Ceph or iSCSI client utilities.
+
+`[Feature:Volumes]` is used in Ceph and iSCSI tests to skip them in all jobs, because no job install Ceph or iSCSI client utilities. These tests don't run in any e2e job and it's goal for this proposal to run them.
 
 #### Ceph server image
 Current Ceph RBD and CephFS tests start a new server in each test. Current Ceph image at  `test/images/volumes-tester/rbd` can run only **once** per node, because the image has hardcoded RBD pool and RBD image ("volume") name.
@@ -146,7 +147,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTcxNTk5NTQwNiw4ODc5MDM2MjMsLTIwNj
+eyJoaXN0b3J5IjpbLTk3ODUzNTUxOSw4ODc5MDM2MjMsLTIwNj
 k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
 MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
 -->

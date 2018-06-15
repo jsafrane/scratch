@@ -1,11 +1,11 @@
 # Kubernetes volume plugin tests
 ## Goal
 * Capture current state of e2e tests of Kubernetes volume plugins.
-* Outline new e2e jobs to test **existing** tests of all volume plugins.
+* Not all volume plugins tests are run. Outline new e2e jobs to run **existing** tests of all volume plugins.
 
 ### Out of scope
 * Restructure tests so all storage features are tested with as much volume plugins as possible. This is long-term effort.
-* Ad
+* Add new tests.
 
 ## Current volume plugin tests
 E2e tests are in `test/e2e/storage`.
@@ -148,7 +148,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODM0ODExMzMwLDg4NzkwMzYyMywtMjA2OT
-gwNTA5MCwtMTE5MDI5MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcx
-MzEwMSwtMTkxNzAwODkyNCwxMDkyOTc4ODA2XX0=
+eyJoaXN0b3J5IjpbLTE1MzEwMTA3Niw4ODc5MDM2MjMsLTIwNj
+k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
+MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
 -->

@@ -129,7 +129,7 @@ I tried all the above with Kubernetes cluster started in this way:
 ```
 KUBE_FEATURE_GATES=MountContainers=true KUBE_GCE_NODE_IMAGE=ubuntu-gke-1604-xenial-v20170816-1 KUBE_GCE_NODE_PROJECT=ubuntu-os-gke-cloud KUBE_NODE_OS_DISTRIBUTION=ubuntu  cluster/kube-up.sh
 ```
-And ran the tests:
+And ran all existing sig-storage tests with:
 ```
 GINKGO_PARALLEL=y go run hack/e2e.go  -- --test  --test_args="--ginkgo.focus=\\[sig-storage\\] --ginkgo.skip=\\[Disruptive\\]|\\[Flaky\\]|\\[Serial\\]|\\[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*\\]|\\[NodeFeature:.+\\] "
 ```
@@ -145,7 +145,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework that provides a server + a volume to test a feature with.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2MDk4OTgwMzUsLTEzOTc3OTc4LC0yMT
+eyJoaXN0b3J5IjpbLTEzNTE2NDQxNjksLTEzOTc3OTc4LC0yMT
 E1Mjk2NTkyLDg4NzkwMzYyMywtMjA2OTgwNTA5MCwtMTE5MDI5
 MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcxMzEwMSwtMTkxNzAwOD
 kyNCwxMDkyOTc4ODA2XX0=

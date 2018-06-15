@@ -136,19 +136,17 @@ GINKGO_PARALLEL=y go run hack/e2e.go  -- --test  --test_args="--ginkgo.focus=\\[
 
 ## Future directions
 Out of scope of this proposal:
-* Refactor tests for individual features so we can test the feature with all volume plugins that support it.
+* Refactor tests for individual features so we can test a feature with all volume plugins that support it.
 	* Candidates:
 		* Mount options
-		* FSGroup
-		* SELinux (if possible)
 		* Resize
 		* Attach limits
 		* Subpath
-	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework that provis
+	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework that provides a server + a volume to test a feature with.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODk5NjQwNzUsLTEzOTc3OTc4LC0yMTE1Mj
-k2NTkyLDg4NzkwMzYyMywtMjA2OTgwNTA5MCwtMTE5MDI5MTU3
-OSwtMTkyNjg4NTA4MiwtMTE5MTcxMzEwMSwtMTkxNzAwODkyNC
-wxMDkyOTc4ODA2XX0=
+eyJoaXN0b3J5IjpbLTE2MDk4OTgwMzUsLTEzOTc3OTc4LC0yMT
+E1Mjk2NTkyLDg4NzkwMzYyMywtMjA2OTgwNTA5MCwtMTE5MDI5
+MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcxMzEwMSwtMTkxNzAwOD
+kyNCwxMDkyOTc4ODA2XX0=
 -->

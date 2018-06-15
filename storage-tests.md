@@ -37,14 +37,14 @@ Existing volume tests:
 
 
 ### Universal volume plugins
-In this document, "universal volume plugins" are plugins that are not bound to any cloud. They can run anywhere, given that the platform provides kernel modules, servers and client utilities.
+In this document, "universal volume plugins" are plugins that are not bound to any cloud. They can run anywhere, given that the platform provides kernel modules, runs servers and has installed client utilities used by kubelet.
 
 #### Test coverage
 | Volume plugin | Dynamic provisioning tests in `volume_provisioning.go` | In-line volume in pod in `volumes.go` | Additional feature tests | Plugin specific tests
 |--|--|--|--|--|
 | ConfigMap, DownwardAPI, Projected, Secrets| N/A | N/A | Subpath, FSGroup | `test/e2e/common/*.go`
 | CephFS | N/A | Yes |
-| CSI | Yes (GCE PD) | No |
+| CSI | Yes | No | Only basic tests for now.
 | EmptyDir | N/A | No | Subpath |
 | FC | N/A | No | | Requires extra HW
 | Flex | N/A | No | | Whole `flexvolume.go` (dummy driver?)
@@ -148,7 +148,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNTUxMDA2ODcsODg3OTAzNjIzLC0yMD
-Y5ODA1MDkwLC0xMTkwMjkxNTc5LC0xOTI2ODg1MDgyLC0xMTkx
-NzEzMTAxLC0xOTE3MDA4OTI0LDEwOTI5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbLTI5MDkyNDA1NSw4ODc5MDM2MjMsLTIwNj
+k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
+MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
 -->

@@ -113,10 +113,9 @@ In order to run these tests, we need:
 * **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes in`SynchronizedBeforeSuite`. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS volumes.
 
 * Create a new job `pull-kubernetes-gce-volumes` that:
-	* Install Ubuntu cluster (to get all necessary kernel modu
-The new job should:
-* Install Ubuntu cluster with `MOUNT_CONTAINERS` 
-	  * -> 
+	* Install Ubuntu cluster with`MountContainer` alpha feature enabled
+	  *	Ubuntu is used to get all necessary kernel modules. COS does not ship them.
+	  *	`MOUNT 
 ### Re-tag volume tests
 In order to have a new test job that tests most of the volume plugins, it's necessary to add `[Volume:<plugin name>]` to all tests, so we can `--focus=[Volume:.*]` in the test job. Existing `[Feature:Volumes]` will be kept to skip Ceph and iSCSI tests in most jobs that can't run them.
 
@@ -134,6 +133,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwNzE1NzI3MzYsLTE5MTcwMDg5MjQsMT
-A5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbLTc2MjY1NDgxNywtMTkxNzAwODkyNCwxMD
+kyOTc4ODA2XX0=
 -->

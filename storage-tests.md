@@ -1,4 +1,5 @@
 # Volume plugin tests
+
 ## Goal
 * Capture current state of e2e tests of Kubernetes volume plugins.
 * Some volume plugins don't run in any e2e job. Design new e2e job(s) to run **existing** tests of all volume plugins.
@@ -133,7 +134,11 @@ KUBE_FEATURE_GATES=MountContainers=true KUBE_GCE_NODE_IMAGE=ubuntu-gke-1604-xeni
 And ran all existing sig-storage tests with:
 ```
 GINKGO_PARALLEL=y go run hack/e2e.go  -- --test  --test_args="--deploy-storage-utilities --ginkgo.focus=\\[sig-storage\\] --ginkgo.skip=\\[Disruptive\\]|\\[Flaky\\]|\\[Serial\\]|\\[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*\\]|\\[NodeFeature:.+\\] "
+
+
+Ran 324 of 1030 Specs in 968.230 seconds
 ```
+~16 minutes is not that bad even when it included bunch of `[Slow]` 
 
 ## Future directions
 Out of scope of this proposal:
@@ -146,9 +151,9 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework that provides a server + a volume to test a feature with.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTY1NDE1NjU4MywxMzc0Mjk3NzcxLDk2Mz
-A4MTY1MSwtMTM1MTY0NDE2OSwtMTM5Nzc5NzgsLTIxMTUyOTY1
-OTIsODg3OTAzNjIzLC0yMDY5ODA1MDkwLC0xMTkwMjkxNTc5LC
-0xOTI2ODg1MDgyLC0xMTkxNzEzMTAxLC0xOTE3MDA4OTI0LDEw
-OTI5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbLTEzNzI2NjY4NzAsLTY1NDE1NjU4MywxMz
+c0Mjk3NzcxLDk2MzA4MTY1MSwtMTM1MTY0NDE2OSwtMTM5Nzc5
+NzgsLTIxMTUyOTY1OTIsODg3OTAzNjIzLC0yMDY5ODA1MDkwLC
+0xMTkwMjkxNTc5LC0xOTI2ODg1MDgyLC0xMTkxNzEzMTAxLC0x
+OTE3MDA4OTI0LDEwOTI5Nzg4MDZdfQ==
 -->

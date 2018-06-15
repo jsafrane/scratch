@@ -119,7 +119,11 @@ In order to run these tests, we need:
   * Run the tests with `e2e.test --deploy-storage-utilities` to deploy the mount utilities for kubelet in containers.
   * Run all storage tests with: `--ginkgo.focus=[sig-storage] --ginkgo.skip=Distruptive|Flaky|Serial`
 
-I tried all the above with Kubernetes cluster started in this way:L
+I tried all the above with Kubernetes cluster started in this way:
+```
+KUBE_FEATURE_GATES=MountContainers=true KUBE_GCE_NODE_IMAGE=ubuntu-gke-1604-xenial-v20170816-1 KUBE_GCE_NODE_PROJECT=ubuntu-os-gke-cloud KUBE_NODE_OS_DISTRIBUTION=ubuntu  cluster/kube-up.sh
+```
+And
 ## Future directions
 Out of scope of this proposal:
 * Refactor tests for individual features so we can test the feature with all volume plugins that support it.
@@ -133,6 +137,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTA2MjgxOTc4MCwtMTE5MTcxMzEwMSwtMT
+eyJoaXN0b3J5IjpbMjEzOTM1NDA2NywtMTE5MTcxMzEwMSwtMT
 kxNzAwODkyNCwxMDkyOTc4ODA2XX0=
 -->

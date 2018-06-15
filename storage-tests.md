@@ -115,13 +115,9 @@ In order to run these tests, we need:
 * Create a new job `pull-kubernetes-gce-volumes` that:
 	* Install Ubuntu cluster with`MountContainers` alpha feature enabled
 	  *	Ubuntu is used to get all necessary kernel modules. COS does not ship them.
-	  *	`MountContainers` alpha feature allows kubelet to run mount utilities in containers instead on the host. These containers are deployed by `--deploy-storage-utilities`, as defined above.
+	  *	`MountContainers` alpha feature [allows kubelet to run mount utilities in containers instead on the host](. These containers are deployed by `--deploy-storage-utilities`, as defined above.
   * Run all storage tests: `--ginkgo.focus=[sig-storage] --ginkgo.skip=Distruptive|Flaky|Serial`
-  * 
-### Re-tag volume tests
-In order to have a new test job that tests most of the volume plugins, it's necessary to add `[Volume:<plugin name>]` to all tests, so we can `--focus=[Volume:.*]` in the test job. Existing `[Feature:Volumes]` will be kept to skip Ceph and iSCSI tests in most jobs that can't run them.
-
-
+  
 ## Future directions
 Out of scope of this proposal:
 * Refactor tests for individual features so we can test the feature with all volume plugins that support it.
@@ -135,6 +131,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTkxMjcwNTY5MCwtMTkxNzAwODkyNCwxMD
-kyOTc4ODA2XX0=
+eyJoaXN0b3J5IjpbLTExOTE3MTMxMDEsLTE5MTcwMDg5MjQsMT
+A5Mjk3ODgwNl19
 -->

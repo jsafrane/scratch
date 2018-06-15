@@ -25,15 +25,15 @@ Existing volume tests:
 | OpenStack Cinder| yes | yes | **none**
 | vSphere disk    | yes | yes | **none** | whole `vsphere/` subdirectory 
  
- These tests have correct `framework.SkipUnlessProviderIs("<cloud>")`, so they can run if Kubernetes had corresponding e2e job in appropriate cloud. Kubernetes runs these jobs:
+ These tests have correct `framework.SkipUnlessProviderIs("<cloud>")`, so they could run if Kubernetes had corresponding e2e job in appropriate cloud. Kubernetes runs these jobs:
 
 |Volume plugin | Test jobs | Comments
 |--|--|--|
 | AWS EBS         | `pull-kubernetes-e2e-kops-aws` | Does not cover `volume_provisioning.go` because of `[Slow]`
 | Azure DD        | **no** |
-| GCE PD          | `pull-kubernetes-e2e-gce` and number of others (`-slow`, `-serial`, `-disruptive`)
+| GCE PD          | `pull-kubernetes-e2e-gce` and number of others (`-slow`, `-serial`, `-disruptive`, ...)
 | OpenStack Cinder| **no** |
-| vSphere disk    | **no** | VMware runs their own e2e
+| vSphere disk    | **no** | VMware already runs their own e2e
 
 
 ### Universal volume plugins
@@ -148,7 +148,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIyMDU0MzMzLDg4NzkwMzYyMywtMjA2OT
-gwNTA5MCwtMTE5MDI5MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcx
-MzEwMSwtMTkxNzAwODkyNCwxMDkyOTc4ODA2XX0=
+eyJoaXN0b3J5IjpbMTc5ODYwMzYwMCw4ODc5MDM2MjMsLTIwNj
+k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
+MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
 -->

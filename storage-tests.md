@@ -31,13 +31,13 @@ Existing volume tests:
 |--|--|--|
 | AWS EBS         | `pull-kubernetes-e2e-kops-aws` | Does not cover `volume_provisioning.go` because of `[Slow]`
 | Azure DD        | **no** |
-| GCE PD          | `pull-kubernetes-e2e-gce` and number of others (`-slow`, `-serial`, `-disruptive`, ...)
+| GCE PD          | `pull-kubernetes-e2e-gce` and number of others (`-slow`, `-serial`, `-disruptive`, `-gke`, ...)
 | OpenStack Cinder| **no** |
 | vSphere disk    | **no** | VMware already runs their own e2e
 
 
 ### Universal volume plugins
-These can run anywhere, given that the platform provides kernel modules, server(s) and client utilities.
+In this document, "universal volume plugins" are plugins that are not bound to any cloud. They can run anywhere, given that the platform provides kernel modules, servers and client utilities.
 
 #### Test coverage
 | Volume plugin | Dynamic provisioning tests in `volume_provisioning.go` | In-line volume in pod in `volumes.go` | Additional feature tests | Plugin specific tests
@@ -148,7 +148,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTc5ODYwMzYwMCw4ODc5MDM2MjMsLTIwNj
-k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
-MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbLTEyNTUxMDA2ODcsODg3OTAzNjIzLC0yMD
+Y5ODA1MDkwLC0xMTkwMjkxNTc5LC0xOTI2ODg1MDgyLC0xMTkx
+NzEzMTAxLC0xOTE3MDA4OTI0LDEwOTI5Nzg4MDZdfQ==
 -->

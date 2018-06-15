@@ -108,7 +108,7 @@ This should be fixed, we want to run tests in parallel, even with several server
 As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag to be skipped on platforms that don't provide Ceph or iSCSI client utilities and/or kernel modules. No job provides these utilities and the tests don't run.
 
 In order to run these tests, we need:
-* **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`. Kubelet already has [MountContainers alpha  feature](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/containerized-mounter-pod.md#implementation-notes) that makes kubelet to run these mount utilities in containers (pods) instead on host.  From OS point of view, it works the same as CSI, running tests with containerized mount utilities will help us reveal regressions / issues early before CSI drivers for volume plugins are created.
+* **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`. Kubelet already has [MountContainers alpha  feature](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/containerized-mounter-pod.md#implementation-notes) that makes kubelet to run these mount utilities in containers (pods) instead on the host.  From OS point of view, it works the same as CSI, running tests with containerized mount utilities will help us reveal regressions / issues early before CSI drivers for volume plugins are created.
 
 * **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes in`SynchronizedBeforeSuite`. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS volumes using pods from the DaemonSet.
 
@@ -147,7 +147,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTI5OTcxNTgwOSw4ODc5MDM2MjMsLTIwNj
-k4MDUwOTAsLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3
-MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
+eyJoaXN0b3J5IjpbLTIxMTUyOTY1OTIsODg3OTAzNjIzLC0yMD
+Y5ODA1MDkwLC0xMTkwMjkxNTc5LC0xOTI2ODg1MDgyLC0xMTkx
+NzEzMTAxLC0xOTE3MDA4OTI0LDEwOTI5Nzg4MDZdfQ==
 -->

@@ -107,8 +107,7 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
 ### Extra job for volume plugin tests.
 As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag and do not run in any existing job, because no job install Ceph or iSCSI client utilities.
 
- 
-Add new test job that runs all storage tests for all volume plugins, that don't have native support in GCI / COS. These tests need: 
+In order to run tese tests, we
   * iSCSI and Ceph kernel modules, which are not available on GCI / COS (the usual OS for e2e test).
 	  * ->**Run the tests on Ubuntu.**
   * Client utilities present on the OS. These are not available neither on COS or Ubuntu image in e2e tests.
@@ -132,6 +131,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTcwNTcxNTI0NiwtMTkxNzAwODkyNCwxMD
-kyOTc4ODA2XX0=
+eyJoaXN0b3J5IjpbLTEyODIwMjA1NDYsLTE5MTcwMDg5MjQsMT
+A5Mjk3ODgwNl19
 -->

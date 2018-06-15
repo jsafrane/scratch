@@ -112,12 +112,12 @@ In order to run these tests, we need:
 
 * **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes in`SynchronizedBeforeSuite`. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS volumes.
 
-* **(Create a new job `pull-kubernetes-gce-volumes`** that:
+* **Create a new job `pull-kubernetes-gce-volumes`** that:
 	* Installs Ubuntu cluster with`MountContainers` alpha feature enabled
 	  *	Ubuntu is used to get all necessary kernel modules. COS does not ship them.
 	  *	`MountContainers` alpha feature [allows kubelet to run mount utilities in containers instead on the host](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/storage/containerized-mounter-pod.md#implementation-notes).
   * Runs the tests with `e2e.test --deploy-storage-utilities` to deploy the mount utilities for kubelet in containers.
-  * Runs all storage tests with: `--ginkgo.focus=[sig-storage] --ginkgo.skip=[Distruptive]|[Flaky]|[Serial]|`
+  * Runs all storage tests with: `--ginkgo.focus=[sig-storage] --ginkgo.skip=[Distruptive]|[Flaky]|[Serial]|[Feature:<all features except Volumes>]`. We want `[Feature:Volumes`
 
 I tried all the above with Kubernetes cluster started in this way:
 ```
@@ -145,7 +145,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAzNTczODM2MiwtMjA2OTgwNTA5MCwtMT
-E5MDI5MTU3OSwtMTkyNjg4NTA4MiwtMTE5MTcxMzEwMSwtMTkx
-NzAwODkyNCwxMDkyOTc4ODA2XX0=
+eyJoaXN0b3J5IjpbLTE3MzgwMTk1MDYsLTIwNjk4MDUwOTAsLT
+ExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3MTMxMDEsLTE5
+MTcwMDg5MjQsMTA5Mjk3ODgwNl19
 -->

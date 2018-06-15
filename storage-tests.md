@@ -108,9 +108,9 @@ This should be fixed, we don't want iSCSI tests to be `[Serial]`.
 As written above, iSCSI, Ceph RBD and CephFS test have `[Feature:Volumes]` tag and do not run in any existing job, because no job install Ceph or iSCSI client utilities and/or kernel modules.
 
 In order to run these tests, we need:
-* **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`. Kubelet already has a way howto run these moun
+* **Prepare a container image with mount utilities for NFS, Gluster, iSCSI, Ceph RBD and CephFS**. There is proof-of-concept in [jsafrane/mounter-daemonset repo](https://github.com/jsafrane/mounter-daemonset). It will end up in `test/images/volume-tester/mount`. Kubelet already has a way howto run these mount utilities in containers instead on host, see below.
 
-* **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFS (assuming they have correct kernel modules available).
+* **Add new option `--deploy-storage-utilities` parameters to `test/e2e.go`**. This will cause E2E test to install a DaemonSet with the aforementioned container on all nodes in`SynchronizedBeforeSuite`. All nodes then can use NFS, Gluster, iSCSI, Ceph RBD and CephFSvolum (assuming they have correct kernel modules available).
 
 * Create a new job`
 The new job should:
@@ -133,6 +133,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTY1MDQ3NDA2LC0xOTE3MDA4OTI0LDEwOT
-I5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbLTQxNzY2NDIzNSwtMTkxNzAwODkyNCwxMD
+kyOTc4ODA2XX0=
 -->

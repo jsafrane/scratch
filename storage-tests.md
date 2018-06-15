@@ -120,7 +120,7 @@ In order to run these tests, we need:
   * Runs all storage tests with: `--ginkgo.focus=[sig-storage] --ginkgo.skip=[Distruptive]|[Flaky]|[Serial]|[Feature:<all features except Volumes>]`.
 	  * We want `[Feature:Volumes]` in and  all other `[Feature:.*]` out.
 	  * Go regexp does not allow negative matching `(?!Feature:Volumes)`
-	  * ->  we must "unroll" the negative match into `[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*]`
+	  * ->  we must "unroll" the negative match into `[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*]`. It would be possible to re-tag volume tests from `[Feature:Volumes]` to `[Volumes]`, but then we must add `--skip:Volumes
 
 I tried all the above with Kubernetes cluster started in this way:
 ```
@@ -148,7 +148,7 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTc4ODUzMDYwLC0yMDY5ODA1MDkwLC0xMT
-kwMjkxNTc5LC0xOTI2ODg1MDgyLC0xMTkxNzEzMTAxLC0xOTE3
-MDA4OTI0LDEwOTI5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbLTEyMzQwOTA4MjUsLTIwNjk4MDUwOTAsLT
+ExOTAyOTE1NzksLTE5MjY4ODUwODIsLTExOTE3MTMxMDEsLTE5
+MTcwMDg5MjQsMTA5Mjk3ODgwNl19
 -->

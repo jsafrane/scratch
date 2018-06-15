@@ -128,9 +128,10 @@ And ran the tests:
 go run hack/e2e.go  -- --test  --test_args="
     --ginkgo.focus=\\[sig-storage\\]
     --ginkgo.skip=\\[Disruptive\\]|\\[Flaky\\]|\\[Serial\\]|\\[Feature:([^V]|V[^o]|Vo[^l]|Vol[^u]|Volu[^m]|Volum[^e]|Volume[^s]).*\\]|\\[NodeFeature:.+\\]"
-
-Notice complicated `--skip` - we want `Feature:Volumes` in and all other features out. It might be better to re-tag `Feat
 ```
+
+Notice complicated `--skip` - we want `Feature:Volumes` in and all other features out. It might be better to re-tag `[Feature:Volumes]` to `[Volumes]`, but then it needs to be skipped in all other jobs.
+
 ## Future directions
 Out of scope of this proposal:
 * Refactor tests for individual features so we can test the feature with all volume plugins that support it.
@@ -144,6 +145,6 @@ Out of scope of this proposal:
 	* Subpath is a great example. It already has tests for most volume plugins, we should refactor it into some generic framework.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjkwNzAzNDMwLC0xOTI2ODg1MDgyLC0xMT
-kxNzEzMTAxLC0xOTE3MDA4OTI0LDEwOTI5Nzg4MDZdfQ==
+eyJoaXN0b3J5IjpbLTExOTAyOTE1NzksLTE5MjY4ODUwODIsLT
+ExOTE3MTMxMDEsLTE5MTcwMDg5MjQsMTA5Mjk3ODgwNl19
 -->

@@ -1,3 +1,4 @@
+
 # In-line CSI volumes in Pods
 
 Author: @jsafrane
@@ -9,13 +10,14 @@ Author: @jsafrane
 Currently, CSI can be used only though PersistentVolume object. All other persistent volume sources support in-line volumes in Pods, CSI should be no exception. There are two main drivers:
 * We want to move away from in-tree volume plugins to CSI, as designed in a separate proposal https://github.com/kubernetes/community/pull/2199/. In-line volumes should use CSI too.
 * CSI drivers can be used to provide Secrets-like volumes to pods, e.g. providing secrets from a remote vault. We don't want to force users to create PVs for each secret, we should allow to use them in-line in pods as regular Secrets or Secrets-like Flex volumes.
+* Get the same features as Flex and deprecate Flex. I.e. replace it with some CSI-Flex bridge, which is out of scope of this proposal.
 
 ## API
 `VolumeSource` needs to be extended with CSI volume source:
 ```go
 type VolumeSource struct {
     // <snip>
-    
+
 	// CSI (Container Storage Interface) represents storage that handled by an external CSI driver (Beta feature).
 	// +optional
 	CSI *CSIVolumeSource
@@ -28,9 +30,9 @@ type CSIVolumeSource struct {
 	// Required.
 	Driver string
 
-	// VolumeHandle is the unique volume name returned by the CSI volume
-	// plugin’s CreateVolume to refer to the volume on all subsequent calls.
-	// Required.
+	// VolumeHandle is the unique ID of the volume. It is the ID used in all CSI
+	// calls.
+	// Required
 	VolumeHandle string
 
 	// Optional: The value to pass to ControllerPublishVolumeRequest.
@@ -44,7 +46,8 @@ type CSIVolumeSource struct {
 	// +optional
 	FSType string
 
-	// Attributes of the volume to publish.
+	// Attributes of the volume. This corresponds to "volume_attributes" in some
+	// CSI calls.
 	// +optional
 	VolumeAttributes map[string]string
 
@@ -87,7 +90,7 @@ Current `storage.VolumeAttachment` object contains only reference to PV that's b
 // VolumeAttachmentSpec is the specification of a VolumeAttachment request.
 type VolumeAttachmentSpec struct {
     // <snip>
-    
+
 	// Source represents the volume that should be attached.
 	Source VolumeAttachmentSource
 }
@@ -98,12 +101,12 @@ type VolumeAttachmentSpec struct {
 type VolumeAttachmentSource struct {
 	// Name of the persistent volume to attach.
 	// +optional
-	PersistentVolumeName *string 
+	PersistentVolumeName *string
 
 	// VolumeSource represents the source location of a volume to attach.
 	// Only CSIVolumeSource can be specified.
 	// +optional
-    VolumeSource *v1.VolumeSource 
+    VolumeSource *v1.VolumeSource
 }
 ```
 
@@ -111,14 +114,45 @@ type VolumeAttachmentSource struct {
 * Using whole `VolumeSource` allows us to re-use `VolumeAttachment` for any other in-line volume in the future. We provide validation that this `VolumeSource` contains only `CSIVolumeSource` to clearly state that only CSI is supported now.
 	* TBD: `CSIVolumeSource` would be enough...
 * External CSI attacher must be extended to  process either `PersistentVolumeName` or `VolumeSource`.
-* Since in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher must get permissions to read any Secrets in any namespace**.
+* Since in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher may need permissions to read any Secrets in any namespace**.
 * CSI `ControllerUnpublishVolume` call (~ volume detach) requires the Secrets to be available at detach time. Current CSI attacher implementation simply expects that the Secrets are available at detach time. Secrets for PVs are "global", out of user's namespace, so this assumption is probably OK. For in-line volumes, **we can either expect that the Secrets are available too (and volume is not detached if user deletes them) or external attacher must cache them somewhere, probably directly in `VolumeAttachment` object itself.**
 	* None of existing Kubernetes volume plugins needed credentials for `Detach`, however those that needed it for `TearDown` either required the Secret to be present (e.g. ScaleIO and StorageOS) or stored them in a json in `/var/lib/kubelet/plugins/<plugin name>/<volume name>/file.json` (e.g. iSCSI).
 
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. These secrets are needed only for `MountDevice/SetUp` calls and don't need to be cached until `TearDown`/`UnmountDevice`.
+
+
+### Security considerations
+
+* As written above, external attacher may requrie permissions to read Secrets in any namespace. It is up to CSI driver author to document if the driver needs such permission (i.e. access to Secrets at attach/detach time) and up to cluster admin to deploy the driver with these permissions or restrict external attacher to access secrets only in some namespaces.
+* PodSecurityPolicy must be enhanced to limit pods in using in-line CSI volumes. It will be modeled following existing Flex volume policy:
+  ```go
+  type PodSecurityPolicySpec struct {
+	// <snip>
+
+	// AllowedFlexVolumes is a whitelist of allowed Flexvolumes.  Empty or nil indicates that all
+	// Flexvolumes may be used.  This parameter is effective only when the usage of the Flexvolumes
+	// is allowed in the "Volumes" field.
+	// +optional
+	AllowedFlexVolumes []AllowedFlexVolume
+
+	// AllowedCSIVolumes is a whitelist of allowed CSI volumes.  Empty or nil indicates that all
+	// CSI volumes may be used.  This parameter is effective only when the usage of the CSI volumes
+	// is allowed in the "Volumes" field.
+	// +optional
+	AllowedCSIVolumes []AllowedCSIVolume
+  }
+
+  // AllowedCSIVolume represents a single CSI volume that is allowed to be used.
+  type AllowedCSIVolume struct {
+	// Driver is the name of the CSI volume driver.
+	Driver string
+  }
+  ```
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xOD
-Y3ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2
-NSw4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbLTE0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOT
+MxMzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0
+NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1NzcxODEzLC01MT
+Y3MDY2NTBdfQ==
 -->

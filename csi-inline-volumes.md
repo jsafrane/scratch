@@ -25,7 +25,7 @@ type VolumeSource struct {
 }
 
 
-// Represents storage that is managed by an external CSI volume driver (Beta feature)
+// Represents storage that is managed by an external CSI volume driver (Alpha feature)
 type CSIVolumeSource struct {
 	// Driver is the name of the driver to use for this volume.
 	// Required.
@@ -205,9 +205,9 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTExMTQxOTU4MCw4NDc4NTExMTMsLTE4MT
-AxMDE1ODAsLTE1NDkyNTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUx
-MTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3ND
-YsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1Nzcx
-ODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbLTExMDc0NzYwMzQsMTExMTQxOTU4MCw4ND
+c4NTExMTMsLTE4MTAxMDE1ODAsLTE1NDkyNTM3ODIsLTE0NjE2
+NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0ND
+I5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3
+MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
 -->

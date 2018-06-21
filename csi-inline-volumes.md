@@ -164,7 +164,7 @@ type InlineVolumeSource struct {
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. These secrets are needed only for `MountDevice/SetUp` calls and don't need to be cached until `TearDown`/`UnmountDevice`.
 
 ### `PodSecurityPolicy`
-* `PodSecurityPolicy` must be enhanced to limit pods in using in-line CSI volumes. It will be modeled following existing Flex volume policy:
+* `PodSecurityPolicy` must be enhanced to limit pods in using in-line CSI volumes. It will be modeled following existing Flex volume policy. There is no default, users can't use in-line CSI volumes unless some CSI drivers are explicitly allowed.
   ```go
   type PodSecurityPolicySpec struct {
 	// <snip>
@@ -188,7 +188,7 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
 	Driver string
   }
   ```
-* `PodSecurityPolicy` must be extended to allow users to use in-line volumes with no prefixes. This prevents users from stealing data from Secrets-like ephemeral volumes inlined in pods by guessing volume ID of someone else.
+* `PodSecurityPolicy` must be extended to allow users to use in-line volumes with no prefixes. This prevents users from stealing data from Secrets-like ephemeral volumes inlined in pods by guessing volume ID of someone else. There is no default, users can't use in-line CSI volumes unless some pre are explicitly allowed.
     ```
    type PodSecurityPolicySpec struct {
 	  // <snip>
@@ -206,7 +206,7 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTY5NDM3NzA5OSwtMTEwNzQ3NjAzNCwxMT
+eyJoaXN0b3J5IjpbLTk2MTE5Nzg4NiwtMTEwNzQ3NjAzNCwxMT
 ExNDE5NTgwLDg0Nzg1MTExMywtMTgxMDEwMTU4MCwtMTU0OTI1
 Mzc4MiwtMTQ2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEzMTg3NT
 ksLTE4Njc4MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1NjMsNzc4

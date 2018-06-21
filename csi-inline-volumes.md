@@ -138,13 +138,12 @@ type VolumeAttachmentSource struct {
 type InlineVolumeSource struct {
 	// VolumeSource is copied from the pod. It ensures that attacher has enough
 	// information to detach a volume when the pod is deleted before detaching.
-	// Only one member can be set.
+	// Only CSIVolumeSource can be set.
 	// Required.
 	VolumeSource v1.VolumeSource
 
 	// Namespace of the pod with in-line volume. It is used to resolve
-	// references to Se
-	// 
+	// references to Secrets in the VolumeSource.
 	// Required.
 	Namespace string
 }
@@ -190,8 +189,8 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg4ODY4ODc0MiwtMTU0OTI1Mzc4MiwtMT
-Q2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4
-MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LD
-gzMzczNTgwMiw2NTU3NzE4MTMsLTUxNjcwNjY1MF19
+eyJoaXN0b3J5IjpbLTEyMTc3MzkyMDIsLTE1NDkyNTM3ODIsLT
+E0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3
+ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NS
+w4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
 -->

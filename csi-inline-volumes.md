@@ -159,7 +159,7 @@ type InlineVolumeSource struct {
 * Secrets for in-line volumes must be in the same namespace as the pod that contains the volume. Users can delete them before the volume is detached. We deliberately choose to let the external attacher to fail when such Secret cannot be found on detach time and keep the volume attached, reporting errors about missing Secrets to user.
 	* Since access to in-line volumes can be configured by `PodSecurityPolicy` (see below), we expect that cluster admin gives access to CSI drivers that require secrets at detach time only to educated users that know they should not delete Secrets used in volumes.
 	* Number of CSI drivers that require Secrets on detach is probably very limited. No in-tree Kubernetes volume plugin requires them on detach.
-	* We will provide clear documentation that using in-line volumes with drivers that require credentials on detach may leave orphaned attached volumes tha
+	* We will provide clear documentation that using in-line volumes with drivers that require credentials on detach may leave orphaned attached volumes that Kubernetes is not able to detach.
 
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. These secrets are needed only for `MountDevice/SetUp` calls and don't need to be cached until `TearDown`/`UnmountDevice`.
@@ -206,9 +206,9 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzODY4NzI1MiwtMTgxMDEwMTU4MCwtMT
-U0OTI1Mzc4MiwtMTQ2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEz
-MTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1Nj
-MsNzc4MjgwMDY1LDgzMzczNTgwMiw2NTU3NzE4MTMsLTUxNjcw
-NjY1MF19
+eyJoaXN0b3J5IjpbLTE1MjgwNjE2MDcsLTE4MTAxMDE1ODAsLT
+E1NDkyNTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMx
+MzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NT
+YzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3
+MDY2NTBdfQ==
 -->

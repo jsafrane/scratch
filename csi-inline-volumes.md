@@ -157,7 +157,8 @@ type InlineVolumeSource struct {
 * CSI `ControllerUnpublishVolume` call (~ volume detach) requires the Secrets to be available at detach time. Current CSI attacher implementation simply expects that the Secrets are available at detach time.
 * Secrets for PVs are "global", out of user's namespace, so this assumption is probably OK.
 * Secrets for in-line volumes must be in the same namespace as the pod that contains the volume. Users can delete them before the volume is detached.
-	* Since access to in-line volumes can be configured by `PodSecurityPolicy` (see below), we expect 
+	* Since access to in-line volumes can be configured by `PodSecurityPolicy` (see below), we expect that cluster admin gives access to CSI drivers that require secrets at detach time only to educated users that know they should not delete Secrets used in volumes.
+	* Number of CSI drivers that require Secrets on detach is probably very limited (no in-tre
 	* None of existing Kubernetes volume plugins needed credentials for `Detach`, however those that needed it for `TearDown` either required the Secret to be present (e.g. ScaleIO and StorageOS) or stored them in a json in `/var/lib/kubelet/plugins/<plugin name>/<volume name>/file.json` (e.g. iSCSI).
 
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
@@ -205,9 +206,9 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTAwNTA0MDU2NiwtMTgxMDEwMTU4MCwtMT
-U0OTI1Mzc4MiwtMTQ2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEz
-MTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1Nj
-MsNzc4MjgwMDY1LDgzMzczNTgwMiw2NTU3NzE4MTMsLTUxNjcw
-NjY1MF19
+eyJoaXN0b3J5IjpbLTEzMzI3NTE4MzAsLTE4MTAxMDE1ODAsLT
+E1NDkyNTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMx
+MzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NT
+YzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3
+MDY2NTBdfQ==
 -->

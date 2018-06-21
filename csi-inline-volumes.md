@@ -10,10 +10,8 @@ Author: @jsafrane
 ## Motivation
 Currently, CSI can be used only though PersistentVolume object. All other persistent volume sources support in-line volumes in Pods, CSI should be no exception. There are three main drivers:
 * We want to move away from in-tree volume plugins to CSI, as designed in a separate proposal https://github.com/kubernetes/community/pull/2199/. In-line volumes should use CSI too.
-* CSI drivers can be used to provide ephemeral volumes used to inject state, configuration, secrets, identity or similar information to pods, like Secrets and ConfigMap in-tree volumes do today.
-	* We don't want to force users to create PVs for each such volume, we should allow to use them in-line in pods as regular Secrets or ephemeral Flex volumes.
-	* On the other hand, we expect that CSI volumes used in PVs represent real persistent storage volume, such as iSCSI LUNs or NFS shares.
-* Get the same features as Flex and deprecate Flex. I.e. replace it with some CSI-Flex bridge. This bridge is out of scope of this proposal.
+* CSI drivers can be used to provide ephemeral volumes used to inject state, configuration, secrets, identity or similar information to pods, like Secrets and ConfigMap in-tree volumes do today. We don't want to force users to create PVs for each such volume, we should allow to use them in-line in pods as regular Secrets or ephemeral Flex volumes.
+* Get the same features as Flex and deprecate Flex. (I.e. replace it with some CSI-Flex bridge. This bridge is out of scope of this proposal.)
 
 ## API
 `VolumeSource` needs to be extended with CSI volume source:
@@ -207,7 +205,7 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTIwMzI3ODk4MSw4NDc4NTExMTMsLTE4MT
+eyJoaXN0b3J5IjpbMTExMTQxOTU4MCw4NDc4NTExMTMsLTE4MT
 AxMDE1ODAsLTE1NDkyNTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUx
 MTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3ND
 YsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1Nzcx

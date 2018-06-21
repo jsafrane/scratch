@@ -30,13 +30,14 @@ type CSIVolumeSource struct {
 	// Required.
 	Driver string
 
-	// VolumeHandle is the unique ID of the volume. It is the ID used in all CSI
-	// calls.
+	// VolumeHandle is the unique ID of the volume. It is the volume ID used in
+	// all CSI calls, optionally with a proefix 
 	// Required
 	VolumeHandle string
 
 	// VolumeHandlePrefix is type of prefix added to VolumeHandle before using
-	// it as CSI volume ID. It ensures that each pod gets 
+	// it as CSI volume ID. It ensures that volumes with the same VolumeHandle
+	// in different pods  or namespaces get unique CSI volume ID.
 	// Required.
 	VolumeHandlePrefix CSIVolumeHandlePrefix
 
@@ -167,7 +168,7 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzg4ODc3NTQ5LC0xNDYxNjUxMzMzLC0xOD
+eyJoaXN0b3J5IjpbOTQ5NjU5Nzc5LC0xNDYxNjUxMzMzLC0xOD
 E1MTE3NjU1LDkzMTMxODc1OSwtMTg2NzgzNDQyOSwtNzY5Mjcy
 NzQ2LDMyNDYxNDU2Myw3NzgyODAwNjUsODMzNzM1ODAyLDY1NT
 c3MTgxMywtNTE2NzA2NjUwXX0=

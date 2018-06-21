@@ -100,6 +100,7 @@ The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentV
 
 * All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
 * VolumeHandle in in-line volumes can have a prefix. This prefix (Pod UID, Namespace UID or nothing) is added to the VolumeHandle before each CSI call. It makes sure that each pod uses a different volume ID for its ephemeral volumes.  The prefix must be explicitly set by pod author, there is no default.
+	* Users don't need to think about VolumeHandles used in thei
 	* Each pod created by ReplicaSet, StatefulSet or DaemonSet will get the same copy of a pod template. `CSIVolumeHandlePrefixPod` makes sure that each pod gets its own unique volume ID and thus can get its own volume instance.
 	* Without the prefix, user could guess volume ID of a secret-like CSI volume of another user and craft a pod with in-line volume referencing it. CSI driver, obeying idempotency, must then give the same volume to this pod. If users can use only`CSIVolumeHandlePrefixNamespace` or `CSIVolumeHandlePrefixPod`in their in-line volumes, we can make sure that they can't steal secrets of each other.
 		* PodSecurityPolicy will be extended to allow / deny users using in-line volumes with no prefix.
@@ -189,7 +190,7 @@ As written above, external attacher may requrie permissions to read Secrets in a
 	Driver string
   }
   ```
-* `PodSecurityPolicy` must be extended to allow users to use in-line volumes with no prefixes. This prevents users from stealing data from Secrets-like ephemeral volumes inlined in pods.
+* `PodSecurityPolicy` must be extended to allow users to use in-line volumes with no prefixes. This prevents users from stealing data from Secrets-like ephemeral volumes inlined in pods by guessing volume ID of someone else.
     ```
    type PodSecurityPolicySpec struct {
 	  // <snip>
@@ -201,9 +202,9 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDg0Nzk1MzYzLC0xODEwMTAxNTgwLC0xNT
-Q5MjUzNzgyLC0xNDYxNjUxMzMzLC0xODE1MTE3NjU1LDkzMTMx
-ODc1OSwtMTg2NzgzNDQyOSwtNzY5MjcyNzQ2LDMyNDYxNDU2My
-w3NzgyODAwNjUsODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2
-NjUwXX0=
+eyJoaXN0b3J5IjpbMTE3ODU5NzI4NSwtMTgxMDEwMTU4MCwtMT
+U0OTI1Mzc4MiwtMTQ2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEz
+MTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1Nj
+MsNzc4MjgwMDY1LDgzMzczNTgwMiw2NTU3NzE4MTMsLTUxNjcw
+NjY1MF19
 -->

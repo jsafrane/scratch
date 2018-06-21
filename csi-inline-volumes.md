@@ -7,7 +7,7 @@ Author: @jsafrane
 * Define API and high level design for in-line CSI volumes in Pod
 
 ## Motivation
-Currently, CSI can be used only though PersistentVolume object. All other persistent volume sources support in-line volumes in Pods, CSI should be no exception. There are two main drivers:
+Currently, CSI can be used only though PersistentVolume object. All other persistent volume sources support in-line volumes in Pods, CSI should be no exception. There are three main drivers:
 * We want to move away from in-tree volume plugins to CSI, as designed in a separate proposal https://github.com/kubernetes/community/pull/2199/. In-line volumes should use CSI too.
 * CSI drivers can be used to provide Secrets-like volumes to pods, e.g. providing secrets from a remote vault. We don't want to force users to create PVs for each secret, we should allow to use them in-line in pods as regular Secrets or Secrets-like Flex volumes.
 * Get the same features as Flex and deprecate Flex. I.e. replace it with some CSI-Flex bridge, which is out of scope of this proposal.
@@ -35,6 +35,8 @@ type CSIVolumeSource struct {
 	// Required
 	VolumeHandle string
 
+	// VolumeHandlePrefix is p
+	VolumeHandlePrefix Vol
 	// Optional: The value to pass to ControllerPublishVolumeRequest.
 	// Defaults to false (read/write).
 	// +optional
@@ -151,8 +153,8 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOT
-MxMzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0
-NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1NzcxODEzLC01MT
-Y3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbLTU2MjA0MDAyMCwtMTQ2MTY1MTMzMywtMT
+gxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3
+Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LDgzMzczNTgwMiw2NT
+U3NzE4MTMsLTUxNjcwNjY1MF19
 -->

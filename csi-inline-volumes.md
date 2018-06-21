@@ -157,8 +157,7 @@ type InlineVolumeSource struct {
 * Secrets for in-line volumes must be in the same namespace as the pod that contains the volume. Users can delete them before the volume is detached. We deliberately choose to let the external attacher to fail when such Secret cannot be found on detach time and keep the volume attached, reporting errors about missing Secrets to user.
 	* Since access to in-line volumes can be configured by `PodSecurityPolicy` (see below), we expect that cluster admin gives access to CSI drivers that require secrets at detach time only to educated users that know they should not delete Secrets used in volumes.
 	* Number of CSI drivers that require Secrets on detach is probably very limited. No in-tree Kubernetes volume plugin requires them on detach.
-	* We will provide clear documentation that using in-line volumes with drivers that require credentials on detach may leave orphaned attached volumes that Kubernetes is not able to detach. It's up to the cluster admin to decide if using such CSI d
-	* We attempt to change CSI to have secrets on detach only optional, allowing Kubernetes not to provide them. Depen
+	* We will provide clear documentation that using in-line volumes with drivers that require credentials on detach may leave orphaned attached volumes that Kubernetes is not able to detach. It's up to the cluster admin to decide if using such CSI driver is worth it.
 
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. These secrets are needed only for `MountDevice/SetUp` calls and don't need to be cached until `TearDown`/`UnmountDevice`.
@@ -202,10 +201,10 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
 As written above, external attacher may requrie permissions to read Secrets in any namespace. It is up to CSI driver author to document if the driver needs such permission (i.e. access to Secrets at attach/detach time) and up to cluster admin to deploy the driver with these permissions or restrict external attacher to access secrets only in some namespaces.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTI0NDg4NDU1LDEyMzU4MTU3NDcsLTExMD
-c0NzYwMzQsMTExMTQxOTU4MCw4NDc4NTExMTMsLTE4MTAxMDE1
-ODAsLTE1NDkyNTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUxMTc2NT
-UsOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3NDYsMzI0
-NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1NzcxODEzLC
-01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbMTc0MzY4OTcxNSwxMjM1ODE1NzQ3LC0xMT
+A3NDc2MDM0LDExMTE0MTk1ODAsODQ3ODUxMTEzLC0xODEwMTAx
+NTgwLC0xNTQ5MjUzNzgyLC0xNDYxNjUxMzMzLC0xODE1MTE3Nj
+U1LDkzMTMxODc1OSwtMTg2NzgzNDQyOSwtNzY5MjcyNzQ2LDMy
+NDYxNDU2Myw3NzgyODAwNjUsODMzNzM1ODAyLDY1NTc3MTgxMy
+wtNTE2NzA2NjUwXX0=
 -->

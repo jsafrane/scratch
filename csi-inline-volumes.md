@@ -37,7 +37,9 @@ type CSIVolumeSource struct {
 
 	// VolumeHandlePrefix is type of prefix added to VolumeHandle before using
 	// it as CSI volume ID.
-	VolumeHandlePrefix VolumeHandlePrefix
+	// Required.
+	VolumeHandlePrefix CSIVolumeHandlePrefix
+
 	// Optional: The value to pass to ControllerPublishVolumeRequest.
 	// Defaults to false (read/write).
 	// +optional
@@ -78,6 +80,8 @@ type CSIVolumeSource struct {
 	// +optional
 	NodePublishSecretRef *LocalObjectReference
 }
+
+type CSIVolumeHandlePrefix string;
 ```
 
 The only difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
@@ -154,7 +158,7 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTYwNjMwMjQ4MywtMTQ2MTY1MTMzMywtMT
+eyJoaXN0b3J5IjpbMTgyNjM4NzYxMCwtMTQ2MTY1MTMzMywtMT
 gxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3
 Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LDgzMzczNTgwMiw2NT
 U3NzE4MTMsLTUxNjcwNjY1MF19

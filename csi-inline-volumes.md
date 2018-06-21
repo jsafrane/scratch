@@ -100,8 +100,8 @@ The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentV
 
 * Secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
 * VolumeHandle in in-line volumes can have prefix. This prefix (Pod UID, Namespace UID or nothing) is added to the VolumeHandle before each CSI call. It makes sure that each pod uses a different volume ID for its ephemeral volumes. 
-	* CSI Volume ID must be unique for each ephemeral volume. 
-	* PodSecurityPolicy will be extended to allow / deny users using in-line volumes with no prefix. User could guess ID of a secret-like CSI volume of someone else and specify it with no prefix in  a pod. CSI 
+	* 
+	* PodSecurityPolicy will be extended to allow / deny users using in-line volumes with no prefix. User could guess ID of a secret-like CSI volume of someone else and specify it with no prefix in  a pod. CSI must then mount the secret volume into this pod and user can steal secrets of someone else. This is not possible if the volume ID is forcefully prefixed by pod / namespace UID.
 * The prefix must be explictly set by pod author, there is no default.
 * 
 ## Implementation
@@ -176,7 +176,7 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTk5NTc5MTkwNCwtMTQ2MTY1MTMzMywtMT
+eyJoaXN0b3J5IjpbMTUxNjg5MDI4OCwtMTQ2MTY1MTMzMywtMT
 gxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3
 Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LDgzMzczNTgwMiw2NT
 U3NzE4MTMsLTUxNjcwNjY1MF19

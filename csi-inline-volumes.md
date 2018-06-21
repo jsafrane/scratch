@@ -36,7 +36,7 @@ type CSIVolumeSource struct {
 	VolumeHandle string
 
 	// VolumeHandlePrefix is type of prefix added to VolumeHandle before using
-	// it as CSI volume ID.
+	// it as CSI volume ID. It ensures that each pod gets 
 	// Required.
 	VolumeHandlePrefix CSIVolumeHandlePrefix
 
@@ -83,11 +83,11 @@ type CSIVolumeSource struct {
 
 type CSIVolumeHandlePrefix string;
 const (
-	// VolumeHandle is prefixed by Pod UID
+	// VolumeHandle is prefixed by Pod UID.
 	CSIVolumeHandlePrefixPod CSIVolumeHandlePrefix  = "Pod"
-	// VolumeHandle is prefixed by UID of the namespace where the pod is 
+	// VolumeHandle is prefixed by UID of the namespace where the pod is located.
 	CSIVolumeHandlePrefixNamespace CSIVolumeHandlePrefix  = "Namespace"
-	// can be mounted in read/write mode to many hosts
+	// VolumeHandle is not modified.
 	CSIVolumeHandlePrefixNone PersistentVolumeAccessMode = "None"
 )
 
@@ -167,8 +167,8 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwMTk3NzE0NjMsLTE0NjE2NTEzMzMsLT
-E4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03Njky
-NzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNj
-U1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbNzg4ODc3NTQ5LC0xNDYxNjUxMzMzLC0xOD
+E1MTE3NjU1LDkzMTMxODc1OSwtMTg2NzgzNDQyOSwtNzY5Mjcy
+NzQ2LDMyNDYxNDU2Myw3NzgyODAwNjUsODMzNzM1ODAyLDY1NT
+c3MTgxMywtNTE2NzA2NjUwXX0=
 -->

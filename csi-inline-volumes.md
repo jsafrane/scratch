@@ -192,15 +192,17 @@ As written above, external attacher may requrie permissions to read Secrets in a
 * `PodSecurityPolicy` must be extended to allow users to use in-line volumes with no prefixes.
     ```
    type PodSecurityPolicySpec struct {
-	 // <snip>
-	 // 
-	 AllowedCSIVolumeHandlePrefixes []storage.CSIVolumeHandlePrefix
+	  // <snip>
+	  // AllowedCSIVolumeHandlePrefixes is a whitelist of volume prefixes
+	  // allowed to be used in CSI volumes in-lined in pods.
+	  AllowedCSIVolumeHandlePrefixes []storage.CSIVolumeHandlePrefix
+    }
     ```
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0NTAzNTU5NjUsLTE1NDkyNTM3ODIsLT
-E0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3
-ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NS
-w4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbMTMyODQ3MDM2NSwtMTU0OTI1Mzc4MiwtMT
+Q2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4
+MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LD
+gzMzczNTgwMiw2NTU3NzE4MTMsLTUxNjcwNjY1MF19
 -->

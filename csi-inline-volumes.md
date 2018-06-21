@@ -129,11 +129,12 @@ type VolumeAttachmentSource struct {
 	// +optional
 	PersistentVolumeName *string
 
-	// VolumeSource represents the source location of a volume to attach.
-	// Only CSIVolumeSource can be specified.
+	// InlineVolumeSource represents the source location of a in-line volume in a pod to attach.
 	// +optional
-    VolumeSource *v1.VolumeSource
+    InlineVolumeSource *InlineVolumeSource
 }
+
+type 
 ```
 
 * A/D controller **copies whole `VolumeSource`**  from `Pod` into `VolumeAttachment`. This allows external CSI attacher to detach volumes for deleted pods without keeping any internal database of attached VolumeSources.
@@ -176,7 +177,7 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1MjcwMTE4NjYsLTE1NDkyNTM3ODIsLT
+eyJoaXN0b3J5IjpbLTE2MTc5OTYzNzAsLTE1NDkyNTM3ODIsLT
 E0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3
 ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NS
 w4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==

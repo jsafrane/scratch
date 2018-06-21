@@ -199,16 +199,13 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
     ```
 
 ### Security considerations
-
 As written above, external attacher may requrie permissions to read Secrets in any namespace. It is up to CSI driver author to document if the driver needs such permission (i.e. access to Secrets at attach/detach time) and up to cluster admin to deploy the driver with these permissions or restrict external attacher to access secrets only in some namespaces.
 
-
-
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNjU4NjMxMDI1LC0xMTA3NDc2MDM0LDExMT
-E0MTk1ODAsODQ3ODUxMTEzLC0xODEwMTAxNTgwLC0xNTQ5MjUz
-NzgyLC0xNDYxNjUxMzMzLC0xODE1MTE3NjU1LDkzMTMxODc1OS
-wtMTg2NzgzNDQyOSwtNzY5MjcyNzQ2LDMyNDYxNDU2Myw3Nzgy
-ODAwNjUsODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2NjUwXX
-0=
+eyJoaXN0b3J5IjpbMTIzNTgxNTc0NywtMTEwNzQ3NjAzNCwxMT
+ExNDE5NTgwLDg0Nzg1MTExMywtMTgxMDEwMTU4MCwtMTU0OTI1
+Mzc4MiwtMTQ2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEzMTg3NT
+ksLTE4Njc4MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1NjMsNzc4
+MjgwMDY1LDgzMzczNTgwMiw2NTU3NzE4MTMsLTUxNjcwNjY1MF
+19
 -->

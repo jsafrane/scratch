@@ -99,7 +99,7 @@ The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentV
 
 * All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
 * VolumeHandle in in-line volumes can have a prefix. This prefix (Pod UID, Namespace UID or nothing) is added to the VolumeHandle before each CSI call. It makes sure that each pod uses a different volume ID for its ephemeral volumes.  The prefix must be explicitly set by pod author, there is no default.
-	* Users don't need to think about VolumeHandles used in their namespace, as each pod will get an unique prefix when `CSIVolumeHandlePrefixPod` is used. CSI volume ID with this prefix will surely not accidentally conflict by another volume ID in another pod.
+	* Users don't need to think about VolumeHandles used in other pods in their namespace, as each pod will get an unique prefix when `CSIVolumeHandlePrefixPod` is used. CSI volume ID with this prefix cannot accidentally conflict by another volume ID in another pod.
 	* Each pod created by ReplicaSet, StatefulSet or DaemonSet will get the same copy of a pod template. `CSIVolumeHandlePrefixPod` makes sure that each pod gets its own unique volume ID and thus can get its own volume instance.
 	* Without the prefix, user could guess volume ID of a secret-like CSI volume of another user and craft a pod with in-line volume referencing it. CSI driver, obeying idempotency, must then give the same volume to this pod. If users can use only`CSIVolumeHandlePrefixNamespace` or `CSIVolumeHandlePrefixPod`in their in-line volumes, we can make sure that they can't steal secrets of each other.
 		* `PodSecurityPolicy` will be extended to allow / deny users using in-line volumes with no prefix.
@@ -205,9 +205,10 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExMDc0NzYwMzQsMTExMTQxOTU4MCw4ND
-c4NTExMTMsLTE4MTAxMDE1ODAsLTE1NDkyNTM3ODIsLTE0NjE2
-NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0ND
-I5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3
-MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbLTIwMDM0OTAyMDksLTExMDc0NzYwMzQsMT
+ExMTQxOTU4MCw4NDc4NTExMTMsLTE4MTAxMDE1ODAsLTE1NDky
+NTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4Nz
+U5LC0xODY3ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3
+ODI4MDA2NSw4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NT
+BdfQ==
 -->

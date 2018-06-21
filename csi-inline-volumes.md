@@ -35,8 +35,9 @@ type CSIVolumeSource struct {
 	// Required
 	VolumeHandle string
 
-	// VolumeHandlePrefix is p
-	VolumeHandlePrefix Vol
+	// VolumeHandlePrefix is type of prefix added to VolumeHandle before using
+	// it as CSI volume ID.
+	VolumeHandlePrefix VolumeHandlePrefix
 	// Optional: The value to pass to ControllerPublishVolumeRequest.
 	// Defaults to false (read/write).
 	// +optional
@@ -153,7 +154,7 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU2MjA0MDAyMCwtMTQ2MTY1MTMzMywtMT
+eyJoaXN0b3J5IjpbMTYwNjMwMjQ4MywtMTQ2MTY1MTMzMywtMT
 gxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3
 Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LDgzMzczNTgwMiw2NT
 U3NzE4MTMsLTUxNjcwNjY1MF19

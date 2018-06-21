@@ -4,7 +4,8 @@
 Author: @jsafrane
 
 ## Goal
-* Define API and high level design for in-line CSI volumes in Pod
+* Define API and high level design for in-line CSI volumes in Pod.
+* Make in-line CSI volumes secure for using ephemeral volumes (such as Secrets or ConfigMap).
 
 ## Motivation
 Currently, CSI can be used only though PersistentVolume object. All other persistent volume sources support in-line volumes in Pods, CSI should be no exception. There are three main drivers:
@@ -206,9 +207,9 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbODQ3ODUxMTEzLC0xODEwMTAxNTgwLC0xNT
-Q5MjUzNzgyLC0xNDYxNjUxMzMzLC0xODE1MTE3NjU1LDkzMTMx
-ODc1OSwtMTg2NzgzNDQyOSwtNzY5MjcyNzQ2LDMyNDYxNDU2My
-w3NzgyODAwNjUsODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2
-NjUwXX0=
+eyJoaXN0b3J5IjpbMTIwMzI3ODk4MSw4NDc4NTExMTMsLTE4MT
+AxMDE1ODAsLTE1NDkyNTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUx
+MTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3ND
+YsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1Nzcx
+ODEzLC01MTY3MDY2NTBdfQ==
 -->

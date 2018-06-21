@@ -156,10 +156,10 @@ type InlineVolumeSource struct {
 * Since in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher may need permissions to read any Secrets in any namespace**.
 * CSI `ControllerUnpublishVolume` call (~ volume detach) requires the Secrets to be available at detach time. Current CSI attacher implementation simply expects that the Secrets are available at detach time.
 * Secrets for PVs are "global", out of user's namespace, so this assumption is probably OK.
-* Secrets for in-line volumes must be in the same namespace as the pod that contains the volume. Users can delete them before the volume is detached. We deliberately choose to let the external attacher to fail when such Secret cannot be found on detach time and keep the volume attached, reporting we
+* Secrets for in-line volumes must be in the same namespace as the pod that contains the volume. Users can delete them before the volume is detached. We deliberately choose to let the external attacher to fail when such Secret cannot be found on detach time and keep the volume attached, reporting errors about missing Secrets to user.
 	* Since access to in-line volumes can be configured by `PodSecurityPolicy` (see below), we expect that cluster admin gives access to CSI drivers that require secrets at detach time only to educated users that know they should not delete Secrets used in volumes.
 	* Number of CSI drivers that require Secrets on detach is probably very limited. No in-tree Kubernetes volume plugin requires them on detach.
-	* 
+	* We will provide clear documentation that using in-CSI drivers that require credentials on detach may leave
 
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. These secrets are needed only for `MountDevice/SetUp` calls and don't need to be cached until `TearDown`/`UnmountDevice`.
@@ -206,9 +206,9 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNDAyMDIyNDMzLC0xODEwMTAxNTgwLC0xNT
-Q5MjUzNzgyLC0xNDYxNjUxMzMzLC0xODE1MTE3NjU1LDkzMTMx
-ODc1OSwtMTg2NzgzNDQyOSwtNzY5MjcyNzQ2LDMyNDYxNDU2My
-w3NzgyODAwNjUsODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2
-NjUwXX0=
+eyJoaXN0b3J5IjpbLTEwNzk4NjM4NjMsLTE4MTAxMDE1ODAsLT
+E1NDkyNTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMx
+MzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NT
+YzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3
+MDY2NTBdfQ==
 -->

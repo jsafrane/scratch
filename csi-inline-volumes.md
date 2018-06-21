@@ -156,10 +156,10 @@ type InlineVolumeSource struct {
 * Since in-line volume in a pod can refer to a secret in the same namespace as the pod, **external attacher may need permissions to read any Secrets in any namespace**.
 * CSI `ControllerUnpublishVolume` call (~ volume detach) requires the Secrets to be available at detach time. Current CSI attacher implementation simply expects that the Secrets are available at detach time.
 * Secrets for PVs are "global", out of user's namespace, so this assumption is probably OK.
-* Secrets for in-line volumes must be in the same namespace as the pod that contains the volume. Users can delete them before the volume is detached. We deliberately choose to let the external eat
+* Secrets for in-line volumes must be in the same namespace as the pod that contains the volume. Users can delete them before the volume is detached. We deliberately choose to let the external attacher to fail when such Secret cannot be found on detach time and keep the volume attached.
 	* Since access to in-line volumes can be configured by `PodSecurityPolicy` (see below), we expect that cluster admin gives access to CSI drivers that require secrets at detach time only to educated users that know they should not delete Secrets used in volumes.
 	* Number of CSI drivers that require Secrets on detach is probably very limited (no in-tree Kubernetes volume plugin requires them on detach).
-	* CSI 
+	* CSI recommends not to require Secrets on detach.
 	* None of existing Kubernetes volume plugins needed credentials for `Detach`, however those that needed it for `TearDown` either required the Secret to be present (e.g. ScaleIO and StorageOS) or stored them in a json in `/var/lib/kubelet/plugins/<plugin name>/<volume name>/file.json` (e.g. iSCSI).
 
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
@@ -207,7 +207,7 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTgxMTUxNzc3LC0xODEwMTAxNTgwLC0xNT
+eyJoaXN0b3J5IjpbMTUzNTQ0OTI4LC0xODEwMTAxNTgwLC0xNT
 Q5MjUzNzgyLC0xNDYxNjUxMzMzLC0xODE1MTE3NjU1LDkzMTMx
 ODc1OSwtMTg2NzgzNDQyOSwtNzY5MjcyNzQ2LDMyNDYxNDU2My
 w3NzgyODAwNjUsODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2

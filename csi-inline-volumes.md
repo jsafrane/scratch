@@ -81,14 +81,14 @@ type CSIVolumeSource struct {
 	NodePublishSecretRef *LocalObjectReference
 }
 
-type CSIVolumeHandlePrefix string;
+type CSIVolumeHandleQualifie string;
 const (
 	// can be mounted read/write mode to exactly 1 host
-	CSI PersistentVolumeAccessMode = "ReadWriteOnce"
+	CSIVolumeHandleQualifierPod CSIVolumeHandlePrefix  = "Pod"
 	// can be mounted in read-only mode to many hosts
-	ReadOnlyMany PersistentVolumeAccessMode = "ReadOnlyMany"
+	CSIVolumePrefixNamespace CSIVolumeHandlePrefix  = "Namespace"
 	// can be mounted in read/write mode to many hosts
-	ReadWriteMany PersistentVolumeAccessMode = "ReadWriteMany"
+	CSIVolumePrefixNone PersistentVolumeAccessMode = "ReadWriteMany"
 )
 
 ```
@@ -167,7 +167,7 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjg4NTE1MTc3LC0xNDYxNjUxMzMzLC0xOD
+eyJoaXN0b3J5IjpbNDAyNDQyMzUzLC0xNDYxNjUxMzMzLC0xOD
 E1MTE3NjU1LDkzMTMxODc1OSwtMTg2NzgzNDQyOSwtNzY5Mjcy
 NzQ2LDMyNDYxNDU2Myw3NzgyODAwNjUsODMzNzM1ODAyLDY1NT
 c3MTgxMywtNTE2NzA2NjUwXX0=

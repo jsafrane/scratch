@@ -104,7 +104,7 @@ The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentV
 	* Without the prefix, user could guess volume ID of a secret-like CSI volume of another user and craft a pod with in-line volume referencing it. CSI driver, obeying idempotency, must then give the same volume to this pod. If users can use only`CSIVolumeHandlePrefixNamespace` or `CSIVolumeHandlePrefixPod`in their in-line volumes, we can make sure that they can't steal secrets of each other.
 		* PodSecurityPolicy will be extended to allow / deny users using in-line volumes with no prefix.
 	* Finally, `CSIVolumeHandlePrefixNone` allows selected users (configured by their PSP)  to use persistent storage volumes in-line in pods.
-	* 
+
 ## Implementation
 #### Provisioning/Deletion
 N/A, it works only with PVs and not with in-line volumes.
@@ -177,8 +177,8 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1NDkyNTM3ODIsLTE0NjE2NTEzMzMsLT
-E4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03Njky
-NzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNj
-U1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbLTQ3MTUzMjgwOCwtMTU0OTI1Mzc4MiwtMT
+Q2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4
+MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LD
+gzMzczNTgwMiw2NTU3NzE4MTMsLTUxNjcwNjY1MF19
 -->

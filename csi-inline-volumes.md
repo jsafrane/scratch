@@ -9,7 +9,7 @@ Author: @jsafrane
 ## Motivation
 Currently, CSI can be used only though PersistentVolume object. All other persistent volume sources support in-line volumes in Pods, CSI should be no exception. There are three main drivers:
 * We want to move away from in-tree volume plugins to CSI, as designed in a separate proposal https://github.com/kubernetes/community/pull/2199/. In-line volumes should use CSI too.
-* CSI drivers can be used to provide Secrets-like volumes to pods, e.g. providing secrets from a remote vault. We don't want to force users to create PVs for each secret, we should allow to use them in-line in pods as regular Secrets or Secrets-like Flex volumes.
+* CSI drivers can be used to provide ephemeral -like volumes to pods, e.g. providing secrets from a remote vault. We don't want to force users to create PVs for each secret, we should allow to use them in-line in pods as regular Secrets or Secrets-like Flex volumes.
 * Get the same features as Flex and deprecate Flex. I.e. replace it with some CSI-Flex bridge, which is out of scope of this proposal.
 
 ## API
@@ -98,7 +98,7 @@ const (
 The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are:
 
 * Secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
-* VolumeHandle in in-line volumes can have prefix. We expect that CSI volumes in PVs represent real storage volumes (AWS EBS, GCE PD, iSCSI LUNs, GlusterFS volumes, ...) In-line volumes in pods cand 
+* VolumeHandle in in-line volumes can have prefix. We expect that CSI volumes in PVs represent real storage volumes (AWS EBS, GCE PD, iSCSI LUNs, GlusterFS volumes, ...) In-line volumes in pods can represent both real storage volumes  and ephemeral volumes used to inject state, configuration or identity into pods, like Secrets or ConfigMaps.
 
 ## Implementation
 #### Provisioning/Deletion
@@ -172,8 +172,8 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTMyODMyNjU2NSwtMTQ2MTY1MTMzMywtMT
-gxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3
-Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LDgzMzczNTgwMiw2NT
-U3NzE4MTMsLTUxNjcwNjY1MF19
+eyJoaXN0b3J5IjpbLTE3ODQwOTk0MzIsLTE0NjE2NTEzMzMsLT
+E4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03Njky
+NzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNj
+U1NzcxODEzLC01MTY3MDY2NTBdfQ==
 -->

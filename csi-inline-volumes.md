@@ -94,14 +94,13 @@ const (
 	// VolumeHandle is not modified.
 	CSIVolumeHandlePrefixNone PersistentVolumeAccessMode = "None"
 )
-
 ```
 
 The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are:
 
 * Secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
-* VolumeHandle in in-line volumes can have prefix. We expect that CSI volumes in PVs represent real storage volumes (AWS EBS, GCE PD, iSCSI LUNs, GlusterFS volumes, ...) In-line volumes in pods can represent both real storage volumes  and ephemeral volumes used to inject state, configuration or identity into pods, like Secrets or ConfigMaps.
-
+* VolumeHandle in in-line volumes can have prefix. The prefix must be explictly set by pod author, there is no default.
+* 
 ## Implementation
 #### Provisioning/Deletion
 N/A, it works only with PVs and not with in-line volumes.
@@ -174,8 +173,8 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE3MjE2OTkzMDQsLTE0NjE2NTEzMzMsLT
-E4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03Njky
-NzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNj
-U1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbLTQzNDEzNDgzMywtMTQ2MTY1MTMzMywtMT
+gxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3
+Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LDgzMzczNTgwMiw2NT
+U3NzE4MTMsLTUxNjcwNjY1MF19
 -->

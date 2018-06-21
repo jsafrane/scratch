@@ -103,7 +103,7 @@ The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentV
 	* Each pod created by ReplicaSet, StatefulSet or DaemonSet will get the same copy of a pod template. `CSIVolumeHandlePrefixPod` makes sure that each pod gets its own unique volume ID and thus can get its own volume instance.
 	* Without the prefix, user could guess volume ID of a secret-like CSI volume of another user and craft a pod with in-line volume referencing it. CSI driver, obeying idempotency, must then give the same volume to this pod. If users can use only`CSIVolumeHandlePrefixNamespace` or `CSIVolumeHandlePrefixPod`in their in-line volumes, we can make sure that they can't steal secrets of each other.
 		* `PodSecurityPolicy` will be extended to allow / deny users using in-line volumes with no prefix.
-	* Finally, `CSIVolumeHandlePrefixNone` allows selected users (configured by their PSP)  to use persistent storage volumes in-line in pods.
+	* Finally, `CSIVolumeHandlePrefixNone` allows selected users (based on PSP) to use persistent storage volumes in-line in pods.
 
 ## Implementation
 #### Provisioning/Deletion
@@ -163,12 +163,7 @@ type InlineVolumeSource struct {
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. These secrets are needed only for `MountDevice/SetUp` calls and don't need to be cached until `TearDown`/`UnmountDevice`.
 
-
-### Security considerations
-
-As written above, external attacher may requrie permissions to read Secrets in any namespace. It is up to CSI driver author to document if the driver needs such permission (i.e. access to Secrets at attach/detach time) and up to cluster admin to deploy the driver with these permissions or restrict external attacher to access secrets only in some namespaces.
-
-#### `PodSecurityPolicy` extensions
+### `PodSecurityPolicy`
 * `PodSecurityPolicy` must be enhanced to limit pods in using in-line CSI volumes. It will be modeled following existing Flex volume policy:
   ```go
   type PodSecurityPolicySpec struct {
@@ -204,11 +199,17 @@ As written above, external attacher may requrie permissions to read Secrets in a
     ```
 
 
+### Security considerations
+
+As written above, external attacher may requrie permissions to read Secrets in any namespace. It is up to CSI driver author to document if the driver needs such permission (i.e. access to Secrets at attach/detach time) and up to cluster admin to deploy the driver with these permissions or restrict external attacher to access secrets only in some namespaces.
+
+
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwMDM0OTAyMDksLTExMDc0NzYwMzQsMT
-ExMTQxOTU4MCw4NDc4NTExMTMsLTE4MTAxMDE1ODAsLTE1NDky
-NTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4Nz
-U5LC0xODY3ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3
-ODI4MDA2NSw4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NT
-BdfQ==
+eyJoaXN0b3J5IjpbLTY5NDM3NzA5OSwtMTEwNzQ3NjAzNCwxMT
+ExNDE5NTgwLDg0Nzg1MTExMywtMTgxMDEwMTU4MCwtMTU0OTI1
+Mzc4MiwtMTQ2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEzMTg3NT
+ksLTE4Njc4MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1NjMsNzc4
+MjgwMDY1LDgzMzczNTgwMiw2NTU3NzE4MTMsLTUxNjcwNjY1MF
+19
 -->

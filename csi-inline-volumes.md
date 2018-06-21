@@ -92,7 +92,7 @@ const (
 	// VolumeHandle is prefixed by UID of the namespace where the pod is located.
 	CSIVolumeHandlePrefixNamespace CSIVolumeHandlePrefix  = "Namespace"
 	// VolumeHandle is not modified.
-	CSIVolumeHandlePrefixNone PersistentVolumeAccessMode = "None"
+	CSIVolumeHandlePrefixNone CSIVolumeHandlePrefix = "None"
 )
 ```
 
@@ -101,7 +101,7 @@ The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentV
 * Secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
 * VolumeHandle in in-line volumes can have prefix. This prefix (Pod UID, Namespace UID or nothing) is added to the VolumeHandle before each CSI call. It makes sure that each pod uses a different volume ID for its ephemeral volumes. 
 	* Each pod created by ReplicaSet, StatefulSet or DaemonSet will get the same copy of a pod template. `CSIVolumeHandlePrefixPod` makes sure that each pod gets its own unique volume ID and thus can get its own volume instance.
-	* Without the prefix, user could guess volume ID of a secret-like CSI volume of another user and craft 
+	* Without the prefix, user could guess volume ID of a secret-like CSI volume of another user and craft a pod with in-line volume referencing it. CSI driver, obeying idempotency, must then give the same volume to this pod, allowing users to steal secrets of each other. With `CSIVolumeHandlePrefixNamespace
 	* PodSecurityPolicy will be extended to allow / deny users using in-line volumes with no prefix. User could guess ID of a secret-like CSI volume of someone else and specify it with no prefix in  a pod. CSI must then mount the secret volume into this pod and user can steal secrets of someone else. This is not possible if the volume ID is forcefully prefixed by pod / namespace UID.
 * The prefix must be explictly set by pod author, there is no default.
 * 
@@ -177,7 +177,7 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzNjk1Mjg1ODUsLTE0NjE2NTEzMzMsLT
+eyJoaXN0b3J5IjpbLTE5MjU5NDk3MjYsLTE0NjE2NTEzMzMsLT
 E4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3ODM0NDI5LC03Njky
 NzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNj
 U1NzcxODEzLC01MTY3MDY2NTBdfQ==

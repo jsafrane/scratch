@@ -189,7 +189,7 @@ As written above, external attacher may requrie permissions to read Secrets in a
 	Driver string
   }
   ```
-* `PodSecurityPolicy` must be extended to allow users to use in-line volumes with no prefixes.
+* `PodSecurityPolicy` must be extended to allow users to use in-line volumes with no prefixes. This prevents users from stealing data from Secrets-like ephemeral volumes inlined in pods.
     ```
    type PodSecurityPolicySpec struct {
 	  // <snip>
@@ -201,8 +201,9 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4MTAxMDE1ODAsLTE1NDkyNTM3ODIsLT
-E0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3
-ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NS
-w4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbNDg0Nzk1MzYzLC0xODEwMTAxNTgwLC0xNT
+Q5MjUzNzgyLC0xNDYxNjUxMzMzLC0xODE1MTE3NjU1LDkzMTMx
+ODc1OSwtMTg2NzgzNDQyOSwtNzY5MjcyNzQ2LDMyNDYxNDU2My
+w3NzgyODAwNjUsODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2
+NjUwXX0=
 -->

@@ -1,4 +1,3 @@
-
 # In-line CSI volumes in Pods
 
 Author: @jsafrane
@@ -159,6 +158,7 @@ type InlineVolumeSource struct {
 	* Since access to in-line volumes can be configured by `PodSecurityPolicy` (see below), we expect that cluster admin gives access to CSI drivers that require secrets at detach time only to educated users that know they should not delete Secrets used in volumes.
 	* Number of CSI drivers that require Secrets on detach is probably very limited. No in-tree Kubernetes volume plugin requires them on detach.
 	* We will provide clear documentation that using in-line volumes with drivers that require credentials on detach may leave orphaned attached volumes that Kubernetes is not able to detach.
+	* We attempt to change CSI to have secrets on detac
 
 ### Kubelet (MountDevice/SetUp/TearDown/UnmountDevice)
 In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which contains either `v1.VolumeSource` from Pod (for in-line volumes) or `v1.PersistentVolume`. We need to modify CSI volume plugin to check for presence of `VolumeSource` or `PersistentVolume` and read NodeStage/NodePublish secrets from appropriate source. Kubelet does not need any new permissions, it already can read secrets for pods that it handles. These secrets are needed only for `MountDevice/SetUp` calls and don't need to be cached until `TearDown`/`UnmountDevice`.
@@ -202,10 +202,10 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
 As written above, external attacher may requrie permissions to read Secrets in any namespace. It is up to CSI driver author to document if the driver needs such permission (i.e. access to Secrets at attach/detach time) and up to cluster admin to deploy the driver with these permissions or restrict external attacher to access secrets only in some namespaces.
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTIzNTgxNTc0NywtMTEwNzQ3NjAzNCwxMT
-ExNDE5NTgwLDg0Nzg1MTExMywtMTgxMDEwMTU4MCwtMTU0OTI1
-Mzc4MiwtMTQ2MTY1MTMzMywtMTgxNTExNzY1NSw5MzEzMTg3NT
-ksLTE4Njc4MzQ0MjksLTc2OTI3Mjc0NiwzMjQ2MTQ1NjMsNzc4
-MjgwMDY1LDgzMzczNTgwMiw2NTU3NzE4MTMsLTUxNjcwNjY1MF
-19
+eyJoaXN0b3J5IjpbMjAwMTQzMDgyNCwxMjM1ODE1NzQ3LC0xMT
+A3NDc2MDM0LDExMTE0MTk1ODAsODQ3ODUxMTEzLC0xODEwMTAx
+NTgwLC0xNTQ5MjUzNzgyLC0xNDYxNjUxMzMzLC0xODE1MTE3Nj
+U1LDkzMTMxODc1OSwtMTg2NzgzNDQyOSwtNzY5MjcyNzQ2LDMy
+NDYxNDU2Myw3NzgyODAwNjUsODMzNzM1ODAyLDY1NTc3MTgxMy
+wtNTE2NzA2NjUwXX0=
 -->

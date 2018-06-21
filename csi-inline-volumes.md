@@ -143,7 +143,7 @@ type InlineVolumeSource struct {
 	VolumeSource v1.VolumeSource
 
 	// Namespace of the pod with in-line volume. It is used to resolve
-	// references to Secrets in the VolumeSource.
+	// references to Secrets in VolumeSource.
 	// Required.
 	Namespace string
 }
@@ -189,8 +189,8 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyMTc3MzkyMDIsLTE1NDkyNTM3ODIsLT
-E0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3
-ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NS
-w4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbLTg1NTU0MTkzLC0xNTQ5MjUzNzgyLC0xND
+YxNjUxMzMzLC0xODE1MTE3NjU1LDkzMTMxODc1OSwtMTg2Nzgz
+NDQyOSwtNzY5MjcyNzQ2LDMyNDYxNDU2Myw3NzgyODAwNjUsOD
+MzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2NjUwXX0=
 -->

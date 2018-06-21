@@ -193,11 +193,13 @@ As written above, external attacher may requrie permissions to read Secrets in a
     ```
    type PodSecurityPolicySpec struct {
 	 // <snip>
-   ```
+	 // 
+	 AllowedCSIVolumeHandlePrefixes []storage.CSIVolumeHandlePrefix
+    ```
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE0MzE4MjEyNDAsLTE1NDkyNTM3ODIsLT
+eyJoaXN0b3J5IjpbLTE0NTAzNTU5NjUsLTE1NDkyNTM3ODIsLT
 E0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3
 ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NS
 w4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==

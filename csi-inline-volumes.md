@@ -12,7 +12,7 @@ Currently, CSI can be used only though PersistentVolume object. All other persis
 * CSI drivers can be used to provide ephemeral volumes used to inject state, configuration, secrets, identity or similar information to pods, like Secrets and ConfigMap in-tree volumes do today.
 	* We don't want to force users to create PVs for each such volume, we should allow to use them in-line in pods as regular Secrets or ephemeral Flex volumes.
 	* On the other hand, we expect that CSI volumes used in PVs represent real persistent storage volume, such as iSCSI LUNs or NFS shares.
-* Get the same features as Flex and deprecate Flex. I.e. replace it with some CSI-Flex bridge, which is out of scope of this proposal.
+* Get the same features as Flex and deprecate Flex. I.e. replace it with some CSI-Flex bridge. This bridge is out of scope of this proposal.
 
 ## API
 `VolumeSource` needs to be extended with CSI volume source:
@@ -206,9 +206,9 @@ As written above, external attacher may requrie permissions to read Secrets in a
 
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1MjgwNjE2MDcsLTE4MTAxMDE1ODAsLT
-E1NDkyNTM3ODIsLTE0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMx
-MzE4NzU5LC0xODY3ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NT
-YzLDc3ODI4MDA2NSw4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3
-MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbODQ3ODUxMTEzLC0xODEwMTAxNTgwLC0xNT
+Q5MjUzNzgyLC0xNDYxNjUxMzMzLC0xODE1MTE3NjU1LDkzMTMx
+ODc1OSwtMTg2NzgzNDQyOSwtNzY5MjcyNzQ2LDMyNDYxNDU2My
+w3NzgyODAwNjUsODMzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2
+NjUwXX0=
 -->

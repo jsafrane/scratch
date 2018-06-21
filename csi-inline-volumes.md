@@ -99,7 +99,8 @@ const (
 The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are:
 
 * Secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
-* VolumeHandle in in-line volumes can have prefix. The prefix must be explictly set by pod author, there is no default.
+* VolumeHandle in in-line volumes can have prefix. This prefix (Pod UID, Namespace UID or nothing) is added to the VolumeHandle before each CSI call. It makes sure that each pod uses a different volume ID for its ephemeral volumes. 
+* The prefix must be explictly set by pod author, there is no default.
 * 
 ## Implementation
 #### Provisioning/Deletion
@@ -173,7 +174,7 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTQzNDEzNDgzMywtMTQ2MTY1MTMzMywtMT
+eyJoaXN0b3J5IjpbLTY2MTU2NDcxOSwtMTQ2MTY1MTMzMywtMT
 gxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3
 Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LDgzMzczNTgwMiw2NT
 U3NzE4MTMsLTUxNjcwNjY1MF19

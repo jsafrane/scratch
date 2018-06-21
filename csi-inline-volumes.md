@@ -164,8 +164,8 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
 
 As written above, external attacher may requrie permissions to read Secrets in any namespace. It is up to CSI driver author to document if the driver needs such permission (i.e. access to Secrets at attach/detach time) and up to cluster admin to deploy the driver with these permissions or restrict external attacher to access secrets only in some namespaces.
 
-
-* PodSecurityPolicy must be enhanced to limit pods in using in-line CSI volumes. It will be modeled following existing Flex volume policy:
+#### `PodSecurityPolicy` extensions
+* `PodSecurityPolicy` must be enhanced to limit pods in using in-line CSI volumes. It will be modeled following existing Flex volume policy:
   ```go
   type PodSecurityPolicySpec struct {
 	// <snip>
@@ -189,10 +189,10 @@ As written above, external attacher may requrie permissions to read Secrets in a
 	Driver string
   }
   ```
-
+* `PodSecurityPolicy` must be extended to allow users to use in-line vol
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1Mjg1Mzc3ODMsLTE1NDkyNTM3ODIsLT
-E0NjE2NTEzMzMsLTE4MTUxMTc2NTUsOTMxMzE4NzU5LC0xODY3
-ODM0NDI5LC03NjkyNzI3NDYsMzI0NjE0NTYzLDc3ODI4MDA2NS
-w4MzM3MzU4MDIsNjU1NzcxODEzLC01MTY3MDY2NTBdfQ==
+eyJoaXN0b3J5IjpbNDUzODgxMjcxLC0xNTQ5MjUzNzgyLC0xND
+YxNjUxMzMzLC0xODE1MTE3NjU1LDkzMTMxODc1OSwtMTg2Nzgz
+NDQyOSwtNzY5MjcyNzQ2LDMyNDYxNDU2Myw3NzgyODAwNjUsOD
+MzNzM1ODAyLDY1NTc3MTgxMywtNTE2NzA2NjUwXX0=
 -->

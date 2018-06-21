@@ -31,13 +31,14 @@ type CSIVolumeSource struct {
 	Driver string
 
 	// VolumeHandle is the unique ID of the volume. It is the volume ID used in
-	// all CSI calls, optionally with a proefix 
+	// all CSI calls, optionally with a prefix based on VolumeHandlePrefix
+	// value.
 	// Required
 	VolumeHandle string
 
 	// VolumeHandlePrefix is type of prefix added to VolumeHandle before using
 	// it as CSI volume ID. It ensures that volumes with the same VolumeHandle
-	// in different pods  or namespaces get unique CSI volume ID.
+	// in different pods or namespaces get unique CSI volume ID.
 	// Required.
 	VolumeHandlePrefix CSIVolumeHandlePrefix
 
@@ -94,7 +95,9 @@ const (
 
 ```
 
-The only difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
+The difference between `CSIVolumeSource` (in-lined in a pod) and `CSIPersistentVolumeSource` (in PV) are:
+
+* S secrets. All secret references in in-line volumes can refer only to secrets in the same namespace where the corresponding pod is running. This is common in all other volume sources that refer to secrets, incl. Flex.
 
 ## Implementation
 #### Provisioning/Deletion
@@ -168,8 +171,8 @@ In-tree CSI volume plugin calls in kubelet get universal `volume.Spec`, which co
   ```
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTQ5NjU5Nzc5LC0xNDYxNjUxMzMzLC0xOD
-E1MTE3NjU1LDkzMTMxODc1OSwtMTg2NzgzNDQyOSwtNzY5Mjcy
-NzQ2LDMyNDYxNDU2Myw3NzgyODAwNjUsODMzNzM1ODAyLDY1NT
-c3MTgxMywtNTE2NzA2NjUwXX0=
+eyJoaXN0b3J5IjpbLTIzMzg1NzM1NiwtMTQ2MTY1MTMzMywtMT
+gxNTExNzY1NSw5MzEzMTg3NTksLTE4Njc4MzQ0MjksLTc2OTI3
+Mjc0NiwzMjQ2MTQ1NjMsNzc4MjgwMDY1LDgzMzczNTgwMiw2NT
+U3NzE4MTMsLTUxNjcwNjY1MF19
 -->

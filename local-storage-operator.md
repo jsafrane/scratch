@@ -119,7 +119,7 @@ We should update Kubernetes local volume plugin to format and mount the device w
 </ul>
 <p>Based on a CR, the operator creates a new DaemonSet with its own ConfigMap(s) for each <code>NodeGroup</code>. The <code>DaemonSet</code> runs two containers, local storage discoverer and local storage provisioner.</p>
 <h3 id="local-storage-discoverer">Local storage discoverer</h3>
-<p>This is a new component that inserts udev rules to the host. On each change of provided ConfigMap with the udev rules, it creates / overwrites <code>/etc/udev/rules.d/99-kubernetes-local-storage.rules</code> and re-triggers all udev rules.</p>
+<p>This is a new component that inserts udev rules to the host. On each change of provided ConfigMap with the udev rules, it creates / overwrites <code>/etc/udev/rules.d/99-kubernetes-local-storage-&lt;LocalStorage.Name&gt;.rules</code> and re-triggers all udev rules.</p>
 <p>The udev rules create symlinks to matched devices in <code>/dev/disk/kubernetes-local-storage/&lt;storageClassName&gt;/&lt;volumeMode&gt;/&lt;device ID&gt;</code>, where:<br>
 * <code>storageClassName</code> is name of the storage class from <code>DeviceGroup.storageClassName</code>.<br>
 * <code>volumeMode</code> is either “block” or “filesystem”, based on <code>DeviceGroup.volumeMode</code>.<br>
@@ -147,7 +147,8 @@ ENV{ID_SERIAL}=="?*" SYMLINK+="disk/kubernetes-local-storage/$env{KUBERNETES_VOL
 
 LABEL="kubernetes_local_storage_end"
 </code></pre>
-<p>As can be seen, the rules file consists of stable header, list of rules from CRD and stable footer. Udev rules are generated also for <code>devices.deviceNames</code> so the handling is consistent.</p>
+<p>As can be seen, the rules file consists of stable header, list of rules from CR and stable footer. Udev rules are generated also for <code>devices.deviceNames</code> so the handling is consistent.</p>
+<p>The discoverer tries to delete <code>/etc/udev/rules.d/99-kubernetes-local-storage-&lt;LocalStorage.Name&gt;.rules</code> upon death. <strong>It may leave orphan rules e.g. when the CR is deleted while node is shut down. We need some cleanup…</strong></p>
 <h3 id="local-storage-provisioner">Local storage provisioner</h3>
 <p>This component is  developed <a href="https://github.com/kubernetes-incubator/external-storage/tree/master/local-volume">upstream</a>. It watches over configured directories and creates PV for device symlinks it finds there.</p>
 <p>The operator must make sure that the right directories are watched.</p>
